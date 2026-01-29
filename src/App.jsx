@@ -1,35 +1,61 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
+import { useState } from "react";
+import "./App.css";
+import RenderImageCard from "./Components/imageCardRender";
+import ShowToast from "./Components/toast";
+import axios from "axios";
 function App() {
-  const [count, setCount] = useState(0)
+    const clientID = import.meta.env.VITE_unsplashAccessKey;
+    const API = import.meta.env.VITE_unsplashAPI;
+    const [images, setImages] = useState([]);
+    const [query, setQuery] = useState("");
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    const [toastMessage, setToastMessage] = useState("");
+    const [toastSwitch, setToastSwitch] = useState(false);
+    async function fetchImages() {
+        const { data } = await axios.get(`${API}?client_id=${clientID}&query=${query}&per_page=30`);
+        fetchImagesValidate(data);
+        setImages(data.results);
+    }
+
+    function fetchImagesValidate(data) {
+        if (data.total === 0) {
+            console.log(data.total);
+            setToastMessage("404 no photo found");
+            setToastSwitch(true);
+            setTimeout(() => {
+                setToastSwitch(false);
+            }, 3000);
+            return false;
+        }
+    }
+    return (
+        <>
+            <ShowToast toastMessage={toastMessage} toastSwitch={toastSwitch} />
+            <div className="searchWrapper">
+                <div className="searchBarWrapper">
+                    <input
+                        type="text"
+                        id="SearchBar"
+                        placeholder="enter a word"
+                        autoComplete="off"
+                        value={query}
+                        onChange={(e) => {
+                            setQuery(e.target.value);
+                        }}
+                        onKeyDown={(e)=> {e.key === "Enter" && fetchImages()}}
+                    />
+                </div>
+                <div className="buttonWrapper">
+                    <button onClick={fetchImages}>Search</button>
+                </div>
+            </div>
+            <div className="contentWrapper">
+                {images.map((photo) => (
+                    <RenderImageCard key={photo.id} imageUrl={photo.urls.small} />
+                ))}
+            </div>
+        </>
+    );
 }
 
-export default App
+export default App;
