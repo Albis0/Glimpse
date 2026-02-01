@@ -125,8 +125,9 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-
-    button {
+    gap: 10px;
+    margin: 20px;
+    button {    
         padding: 10px 20px;
         background: transparent;
         backdrop-filter: blur(0.75rem);
@@ -137,22 +138,15 @@ body {
 }
 
 .contentWrapper {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
+    columns: 4;
+    column-gap: 10px;
     padding: var(--space-md);
 }
 .imageWrapper {
-    width: 200px;
-    height: 200px;
-
+    break-inside: avoid ;
     img {
         width: 100%;
-        height: 100%;
-        object-fit: cover;
+        height: auto;
     }
 }
 
@@ -181,4 +175,8 @@ body {
 .toastWrapper.show {
     opacity: 1;
     transform: translateX(0);
+}
+
+.isLoadingSpan{
+    color: var(--text-primary);
 }

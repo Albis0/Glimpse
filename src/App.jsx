@@ -5,16 +5,31 @@ import ShowToast from "./Components/toast";
 import axios from "axios";
 function App() {
     const clientID = import.meta.env.VITE_unsplashAccessKey;
-    const API = import.meta.env.VITE_unsplashAPI;
+    const unsplashAPI = import.meta.env.VITE_unsplashAPI;
+    const pexelsApi = import.meta.env.VITE_pexelsAPI;
+    const pexelsApiKey = import.meta.env.VITE_pexelsAPIKey;
     const [images, setImages] = useState([]);
     const [query, setQuery] = useState("");
-
+    const [isLoading, setIsLoading] = useState(false);
     const [toastMessage, setToastMessage] = useState("");
     const [toastSwitch, setToastSwitch] = useState(false);
-    async function fetchImages() {
-        const { data } = await axios.get(`${API}?client_id=${clientID}&query=${query}&per_page=30`);
+
+    async function fetchImagesFromPexels() {
+        setIsLoading(true);
+        const { data } = await axios.get(pexelsApi, { params: { query: query, per_page: 80 }, headers: { Authorization: pexelsApiKey } });
         fetchImagesValidate(data);
-        setImages(data.results);
+        const photos = data.photos.map((photo) => ({ id: photo.id, url: photo.src.large }));
+        console.log(photos);
+        setImages(photos);
+        setIsLoading(false);
+    }
+    async function fetchImagesFromUnsplash() {
+        setIsLoading(true);
+        const { data } = await axios.get(`${unsplashAPI}?client_id=${clientID}&query=${query}&per_page=40`);
+        fetchImagesValidate(data);
+        const photos = data.results.map((photo) => ({ id: photo.id, url: photo.urls.regular }));
+        setImages(photos);
+        setIsLoading(false);
     }
 
     function fetchImagesValidate(data) {
@@ -42,16 +57,20 @@ function App() {
                         onChange={(e) => {
                             setQuery(e.target.value);
                         }}
-                        onKeyDown={(e)=> {e.key === "Enter" && fetchImages()}}
+                        onKeyDown={(e) => {
+                            e.key === "Enter" && fetchImagesFromUnsplash();
+                        }}
                     />
                 </div>
                 <div className="buttonWrapper">
-                    <button onClick={fetchImages}>Search</button>
+                    <button onClick={fetchImagesFromUnsplash}>Unsplash</button>
+                    <button onClick={fetchImagesFromPexels}>Pexels</button>
                 </div>
+                <div className="isLoadingSpan">{isLoading && <span>Loading ...</span>}</div>
             </div>
             <div className="contentWrapper">
                 {images.map((photo) => (
-                    <RenderImageCard key={photo.id} imageUrl={photo.urls.small} />
+                    <RenderImageCard key={photo.id} imageUrl={photo.url} />
                 ))}
             </div>
         </>
