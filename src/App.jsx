@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import "./App.css";
 import RenderImageCard from "./Components/imageCardRender";
 import ShowToast from "./Components/toast";
@@ -13,35 +13,63 @@ function App() {
     const [isLoading, setIsLoading] = useState(false);
     const [toastMessage, setToastMessage] = useState("");
     const [toastSwitch, setToastSwitch] = useState(false);
-
+    const toastTimerRef = useRef(null);
     async function fetchImagesFromPexels() {
+        if (isLoading) return;
+        if (isQueryEmpty(query)) return;
+
         setIsLoading(true);
-        const { data } = await axios.get(pexelsApi, { params: { query: query, per_page: 80 }, headers: { Authorization: pexelsApiKey } });
-        fetchImagesValidate(data);
-        const photos = data.photos.map((photo) => ({ id: photo.id, url: photo.src.large }));
-        console.log(photos);
-        setImages(photos);
-        setIsLoading(false);
+        try {
+            const { data } = await axios.get(pexelsApi, { params: { query: query, per_page: 80 }, headers: { Authorization: pexelsApiKey } });
+            if (!fetchImagesValidate(data.total_results)) return;
+            const photos = data.photos.map((photo) => ({ id: photo.id, url: photo.src.large }));
+            setImages(photos);
+        } catch (error) {
+            console.log(`error accured: ${error}`);
+        } finally {
+            setIsLoading(false);
+        }
     }
     async function fetchImagesFromUnsplash() {
+        if (isLoading) return;
+        if (isQueryEmpty(query)) return;
+        
         setIsLoading(true);
-        const { data } = await axios.get(`${unsplashAPI}?client_id=${clientID}&query=${query}&per_page=40`);
-        fetchImagesValidate(data);
-        const photos = data.results.map((photo) => ({ id: photo.id, url: photo.urls.regular }));
-        setImages(photos);
-        setIsLoading(false);
+        try {
+            
+            const { data } = await axios.get(`${unsplashAPI}?client_id=${clientID}&query=${query}&per_page=40`);
+            if (!fetchImagesValidate(data.total)) return;
+            const photos = data.results.map((photo) => ({ id: photo.id, url: photo.urls.regular }));
+            setImages(photos);
+        } catch (error) {
+            console.log(`error accured: ${error}`);
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     function fetchImagesValidate(data) {
-        if (data.total === 0) {
-            console.log(data.total);
-            setToastMessage("404 no photo found");
-            setToastSwitch(true);
-            setTimeout(() => {
-                setToastSwitch(false);
-            }, 3000);
+        if (data === 0) {
+            showToast("404 no photo found");
+            setImages([]);
             return false;
         }
+        return true;
+    }
+    function isQueryEmpty(query) {
+        if (query.trim() === "") {
+            showToast("query cannot be empty");
+            return true;
+        }
+        return false;
+    }
+    function showToast(toastMessage) {
+        setToastMessage(toastMessage);
+        setToastSwitch(true);
+        clearTimeout(toastTimerRef.current);
+        toastTimerRef.current = setTimeout(() => {
+            setToastSwitch(false);
+        }, 3000);
     }
     return (
         <>
@@ -57,14 +85,15 @@ function App() {
                         onChange={(e) => {
                             setQuery(e.target.value);
                         }}
-                        onKeyDown={(e) => {
-                            e.key === "Enter" && fetchImagesFromUnsplash();
-                        }}
                     />
                 </div>
                 <div className="buttonWrapper">
-                    <button onClick={fetchImagesFromUnsplash}>Unsplash</button>
-                    <button onClick={fetchImagesFromPexels}>Pexels</button>
+                    <button onClick={fetchImagesFromUnsplash} disabled={isLoading}>
+                        Unsplash
+                    </button>
+                    <button onClick={fetchImagesFromPexels} disabled={isLoading}>
+                        Pexels
+                    </button>
                 </div>
                 <div className="isLoadingSpan">{isLoading && <span>Loading ...</span>}</div>
             </div>

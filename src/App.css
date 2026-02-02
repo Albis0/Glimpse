@@ -110,7 +110,7 @@ body {
         color: var(--text-primary);
 
         &::placeholder {
-            color: var(--text-);
+            color: var(--text-primary);
         }
     }
 }
