@@ -1,6 +1,6 @@
-function RenderImageCard({ imageUrl }) {
+function RenderImageCard({ imageUrl, onClick }) {
     return (
-        <div className="imageWrapper">
+        <div className="imageWrapper" onClick={onClick}>
             <img src={imageUrl} alt="Image" className="image" />
         </div>
     );

@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import "./App.css";
 import RenderImageCard from "./Components/imageCardRender";
 import ShowToast from "./Components/toast";
+import PhotoModal from "./Components/photoModal";
 import axios from "axios";
 function App() {
     const clientID = import.meta.env.VITE_unsplashAccessKey;
@@ -14,6 +15,9 @@ function App() {
     const [toastMessage, setToastMessage] = useState("");
     const [toastSwitch, setToastSwitch] = useState(false);
     const toastTimerRef = useRef(null);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     async function fetchImagesFromPexels() {
         if (isLoading) return;
         if (isQueryEmpty(query)) return;
@@ -33,10 +37,9 @@ function App() {
     async function fetchImagesFromUnsplash() {
         if (isLoading) return;
         if (isQueryEmpty(query)) return;
-        
+
         setIsLoading(true);
         try {
-            
             const { data } = await axios.get(`${unsplashAPI}?client_id=${clientID}&query=${query}&per_page=40`);
             if (!fetchImagesValidate(data.total)) return;
             const photos = data.results.map((photo) => ({ id: photo.id, url: photo.urls.regular }));
@@ -99,9 +102,24 @@ function App() {
             </div>
             <div className="contentWrapper">
                 {images.map((photo) => (
-                    <RenderImageCard key={photo.id} imageUrl={photo.url} />
+                    <RenderImageCard
+                        key={photo.id}
+                        imageUrl={photo.url}
+                        onClick={() => {
+                            setSelectedImage(photo.url);
+                            setIsModalOpen(true);
+                        }}
+                    />
                 ))}
             </div>
+            {isModalOpen && (
+                <PhotoModal
+                    image={selectedImage}
+                    onClose={() => {
+                        setIsModalOpen(false);
+                    }}
+                />
+            )}
         </>
     );
 }
