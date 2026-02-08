@@ -12,14 +12,14 @@ function PhotoModal({ image, onClose }) {
 
             URL.revokeObjectURL(blobURL);
         } catch (error) {
-            console.log(`download Failed . err : ${error}`);
+            console.log(`download Failed . err : ${error}`)
         }
     }
     return (
         <div className="modalContainer" onClick={onClose}>
-            <div className="photoModal"onClick={(e) => {e.stopPropagation();}}>
+            <div className="photoModal" onClick={(e) => { e.stopPropagation(); }}>
                 <img src={image} alt="modalPhoto" id="modalImage" />
-                <div className="downloadImageSVG"onClick={() => {handleDownload(); }}>
+                <div className="downloadImageSVG" onClick={() => { handleDownload(); }}>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
                         <path
                             fillRule="evenodd"

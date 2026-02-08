@@ -18,42 +18,34 @@ function App() {
     const [selectedImage, setSelectedImage] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    async function fetchImagesFromPexels() {
-        if (isLoading) return;
-        if (isQueryEmpty(query)) return;
 
-        setIsLoading(true);
+    async function imageFetcher(apiName) {
+        if (isLoading || isQueryEmpty(query)) return;
+        setIsLoading(true)
         try {
-            const { data } = await axios.get(pexelsApi, { params: { query: query, per_page: 80 }, headers: { Authorization: pexelsApiKey } });
-            if (!fetchImagesValidate(data.total_results)) return;
-            const photos = data.photos.map((photo) => ({ id: photo.id, url: photo.src.large }));
-            setImages(photos);
-        } catch (error) {
-            console.log(`error accured: ${error}`);
-        } finally {
-            setIsLoading(false);
-        }
-    }
-    async function fetchImagesFromUnsplash() {
-        if (isLoading) return;
-        if (isQueryEmpty(query)) return;
+            if (apiName === "unsplash") {
+                const { data } = await axios.get(unsplashAPI, { params: { client_id: clientID, query: query, per_page: 40 } });
+                if (!fetchImagesValidate(data.total)) throw new Error("404 no photo found");
+                const photos = data.results.map((photo) => ({ id: photo.id, url: photo.urls.regular }));
+                return setImages(photos);;
+            }
 
-        setIsLoading(true);
-        try {
-            const { data } = await axios.get(`${unsplashAPI}?client_id=${clientID}&query=${query}&per_page=40`);
-            if (!fetchImagesValidate(data.total)) return;
-            const photos = data.results.map((photo) => ({ id: photo.id, url: photo.urls.regular }));
-            setImages(photos);
-        } catch (error) {
-            console.log(`error accured: ${error}`);
-        } finally {
-            setIsLoading(false);
-        }
-    }
+            if (apiName === "pexels") {
+                const { data } = await axios.get(pexelsApi, { params: { query: query, per_page: 80 }, headers: { Authorization: pexelsApiKey } });
+                if (!fetchImagesValidate(data.total_results)) throw new Error("404 no photo found");
+                const photos = data.photos.map((photo) => ({ id: photo.id, url: photo.src.large }));
+                return setImages(photos);
+            }
 
+        } catch (error) {
+            showToast(`${error}`)
+            console.log(`error occurred: ${error}`);
+        }
+        finally { setIsLoading(false) }
+    }
+    
     function fetchImagesValidate(data) {
         if (data === 0) {
-            showToast("404 no photo found");
             setImages([]);
             return false;
         }
@@ -91,10 +83,10 @@ function App() {
                     />
                 </div>
                 <div className="buttonWrapper">
-                    <button onClick={fetchImagesFromUnsplash} disabled={isLoading}>
+                    <button onClick={() => imageFetcher("unsplash")} disabled={isLoading}>
                         Unsplash
                     </button>
-                    <button onClick={fetchImagesFromPexels} disabled={isLoading}>
+                    <button onClick={() => imageFetcher("pexels")} disabled={isLoading}>
                         Pexels
                     </button>
                 </div>

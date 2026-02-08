@@ -85,11 +85,13 @@ body {
     width: 100%;
     min-height: 100vh;
 }
+
 .exclamationMark {
     font-weight: var(--font-bold);
     font-size: var(--text-xxxl);
     color: var(--text-primary);
 }
+
 .searchWrapper {
     width: 100%;
     padding: var(--space-md);
@@ -114,12 +116,14 @@ body {
         }
     }
 }
+
 .searchBarWrapper {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 .buttonWrapper {
     width: 100%;
     display: flex;
@@ -127,9 +131,11 @@ body {
     justify-content: center;
     gap: 10px;
     margin: 20px;
+
     button {
         padding: 10px 20px;
-        background: transparent;
+        background: var(--bg-tertiary);
+        color: var(--text-secondary);
         backdrop-filter: blur(0.75rem);
         border: 1px solid var(--primary);
         border-radius: var(--radius-md);
@@ -138,17 +144,20 @@ body {
 }
 
 .contentWrapper {
-    columns: 4;
+    columns: 5;
     column-gap: 10px;
     padding: var(--space-md);
 }
+
 .imageWrapper {
     break-inside: avoid;
+
     img {
         width: 100%;
         height: auto;
         transition: .2s ease-in-out;
-        &:hover{
+
+        &:hover {
             transform: scale(1.02);
         }
     }
@@ -176,6 +185,7 @@ body {
         color: var(--text-primary);
     }
 }
+
 .toastWrapper.show {
     opacity: 1;
     transform: translateX(0);
@@ -210,11 +220,12 @@ body {
     border-radius: var(--space-sm);
 
     img {
-        width:auto;
+        width: auto;
         height: auto;
         object-fit: cover;
         border-radius: var(--space-sm);
     }
+
     .downloadImageSVG {
         position: absolute;
         bottom: 0.75rem;
@@ -226,9 +237,29 @@ body {
         border-radius: var(--space-sm);
         transition: 0.2s ease-in-out;
         color: var(--text-secondary);
+
         &:hover {
             background-color: var(--bg-tertiary);
             color: var(--text-primary);
         }
     }
 }
+
+@media (max-width:1440px) {
+    .contentWrapper {
+        columns: 4;
+    }
+}
+@media (max-width:1024px) {
+    .contentWrapper {
+        columns: 3;
+    }
+}
+
+
+@media (max-width:769px) {
+    .contentWrapper {
+        columns: 2;
+    }
+}
+
