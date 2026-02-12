@@ -43,12 +43,10 @@ function App() {
         }
         finally { setIsLoading(false) }
     }
-    
+
     function fetchImagesValidate(data) {
-        if (data === 0) {
-            setImages([]);
-            return false;
-        }
+        if (data === 0) return false;
+
         return true;
     }
     function isQueryEmpty(query) {
