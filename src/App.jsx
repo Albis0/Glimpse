@@ -2,7 +2,8 @@ import { useRef, useState } from "react";
 import "./App.css";
 import RenderImageCard from "./Components/imageCardRender";
 import ShowToast from "./Components/toast";
-import PhotoModal from "./Components/photoModal";
+import PhotoModal from "./modals/photoModal";
+import Navbar from "./Components/navbar";
 import axios from "axios";
 function App() {
     const clientID = import.meta.env.VITE_unsplashAccessKey;
@@ -17,8 +18,8 @@ function App() {
     const toastTimerRef = useRef(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-
+    const userPfp = null
+    
     async function imageFetcher(apiName) {
         if (isLoading || isQueryEmpty(query)) return;
         setIsLoading(true)
@@ -27,18 +28,18 @@ function App() {
                 const { data } = await axios.get(unsplashAPI, { params: { client_id: clientID, query: query, per_page: 40 } });
                 if (!fetchImagesValidate(data.total)) throw new Error("404 no photo found");
                 const photos = data.results.map((photo) => ({ id: photo.id, url: photo.urls.regular }));
-                return setImages(photos);;
+                setImages(photos);;
             }
 
             if (apiName === "pexels") {
                 const { data } = await axios.get(pexelsApi, { params: { query: query, per_page: 80 }, headers: { Authorization: pexelsApiKey } });
                 if (!fetchImagesValidate(data.total_results)) throw new Error("404 no photo found");
                 const photos = data.photos.map((photo) => ({ id: photo.id, url: photo.src.large }));
-                return setImages(photos);
+                setImages(photos);
             }
 
         } catch (error) {
-            showToast(`${error}`)
+            showToast(` ${error.message} `)
             console.log(`error occurred: ${error}`);
         }
         finally { setIsLoading(false) }
@@ -50,8 +51,13 @@ function App() {
         return true;
     }
     function isQueryEmpty(query) {
-        if (query.trim() === "") {
+        const trimmed = query.trim()
+        if (trimmed === "") {
             showToast("query cannot be empty");
+            return true;
+        }
+        if (trimmed.length <= 2) {
+            showToast("query should be atleast 3 characters");
             return true;
         }
         return false;
@@ -66,6 +72,7 @@ function App() {
     }
     return (
         <>
+            <Navbar pfp={userPfp} />
             <ShowToast toastMessage={toastMessage} toastSwitch={toastSwitch} />
             <div className="searchWrapper">
                 <div className="searchBarWrapper">
@@ -79,14 +86,6 @@ function App() {
                             setQuery(e.target.value);
                         }}
                     />
-                </div>
-                <div className="buttonWrapper">
-                    <button onClick={() => imageFetcher("unsplash")} disabled={isLoading}>
-                        Unsplash
-                    </button>
-                    <button onClick={() => imageFetcher("pexels")} disabled={isLoading}>
-                        Pexels
-                    </button>
                 </div>
                 <div className="isLoadingSpan">{isLoading && <span>Loading ...</span>}</div>
             </div>
