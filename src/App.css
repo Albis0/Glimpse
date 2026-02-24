@@ -96,37 +96,66 @@ body {
     width: 100%;
     padding: var(--space-md);
     display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    user-select: none;
+}
+
+.searchBarWrapper {
+    width: 40%;
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    user-select: none;
+    border: 1px solid var(--border-dark);
+    border-radius: var(--space-xs);
+    padding: var(--space-xs);
+}
 
-    input {
-        width: 50%;
+.searchInputRow {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    #queryInput {
+        width: 100%;
         padding: var(--space-xs);
-        border: 1px solid;
-        outline: none;
-        border-radius: var(--radius-md);
         background: transparent;
-        backdrop-filter: blur(0.75rem);
+        border-radius: var(--space-xxs);
+        border: none;
+        outline: none;
         color: var(--text-primary);
+    }
 
-        &::placeholder {
-            color: var(--text-primary);
+    .iconWrapper {
+        position: absolute;
+        top: var(--space-xs);
+        right: var(--space-xs);
+        cursor: pointer;
+        transition: .1s ease-in-out;
+
+        &:active {
+            transform: scale(0.95);
         }
     }
 }
 
-.searchBarWrapper {
+.searchOptionsRow{
     width: 100%;
     display: flex;
+    justify-content: start;
     align-items: center;
-    justify-content: center;
 }
 
-
-
+.loadingState{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .contentWrapper {
     columns: 5;
     column-gap: 10px;
@@ -135,10 +164,12 @@ body {
 
 .imageWrapper {
     break-inside: avoid;
+
     img {
         width: 100%;
         height: auto;
         transition: .2s ease-in-out;
+
         &:hover {
             transform: scale(1.02);
         }
@@ -199,7 +230,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px dashed var(--border-medium);
+    border: 2px dashed var(--border-medium);
     border-radius: var(--space-sm);
     padding: 5px;
 
@@ -288,7 +319,7 @@ header {
     }
 }
 
-.navbarAPI.active {
+.active {
     color: var(--text-primary);
     background-color: var(--bg-tertiary);
 }
@@ -303,4 +334,42 @@ header {
     width: 30px;
     height: 30px;
     border-radius: 50%;
+}
+
+.resulationSelect {
+    padding: var(--space-xxs);
+    border-radius: var(--space-xxs);
+    color: var(--text-primary);
+    width: 80px;
+    font-size: var(--text-sm);
+    cursor: pointer;
+    transition: .3s ease-out;
+    &:hover{
+        background-color: var(--foreground);
+    }
+}
+
+.optionWrapper {
+    position: absolute;
+    border-radius: var(--space-xxs);
+    border: 1px solid var(--bg-secondary);
+    color: var(--text-secondary);
+    margin-top: var(--space-xxs);
+}
+
+.resulationOption {
+    padding: var(--space-xxs);
+    border-bottom: 1px solid var(--bg-primary);
+    width: 80px;
+    
+}
+
+.res1080P,
+.res2K,
+.res4K,
+.resOriginal {
+    &:hover {
+        color: var(--text-primary);
+        cursor: pointer;
+    }
 }

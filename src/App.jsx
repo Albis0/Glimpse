@@ -1,92 +1,24 @@
-import { useRef, useState } from "react";
 import "./App.css";
+// components
 import RenderImageCard from "./Components/imageCardRender";
 import ShowToast from "./Components/toast";
-import PhotoModal from "./modals/photoModal";
 import Navbar from "./Components/navbar";
-import axios from "axios";
+import SearchBar from "./Components/searchBar";
+
+
+import PhotoModal from "./modals/photoModal";
+import { useContext } from "react";
+import { SearchContext } from "./SearchContext";
 function App() {
-    const clientID = import.meta.env.VITE_unsplashAccessKey;
-    const unsplashAPI = import.meta.env.VITE_unsplashAPI;
-    const pexelsApi = import.meta.env.VITE_pexelsAPI;
-    const pexelsApiKey = import.meta.env.VITE_pexelsAPIKey;
-    const [images, setImages] = useState([]);
-    const [query, setQuery] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
-    const [toastMessage, setToastMessage] = useState("");
-    const [toastSwitch, setToastSwitch] = useState(false);
-    const toastTimerRef = useRef(null);
-    const [selectedImage, setSelectedImage] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const userPfp = null
-    
-    async function imageFetcher(apiName) {
-        if (isLoading || isQueryEmpty(query)) return;
-        setIsLoading(true)
-        try {
-            if (apiName === "unsplash") {
-                const { data } = await axios.get(unsplashAPI, { params: { client_id: clientID, query: query, per_page: 40 } });
-                if (!fetchImagesValidate(data.total)) throw new Error("404 no photo found");
-                const photos = data.results.map((photo) => ({ id: photo.id, url: photo.urls.regular }));
-                setImages(photos);;
-            }
-
-            if (apiName === "pexels") {
-                const { data } = await axios.get(pexelsApi, { params: { query: query, per_page: 80 }, headers: { Authorization: pexelsApiKey } });
-                if (!fetchImagesValidate(data.total_results)) throw new Error("404 no photo found");
-                const photos = data.photos.map((photo) => ({ id: photo.id, url: photo.src.large }));
-                setImages(photos);
-            }
-
-        } catch (error) {
-            showToast(` ${error.message} `)
-            console.log(`error occurred: ${error}`);
-        }
-        finally { setIsLoading(false) }
-    }
-
-    function fetchImagesValidate(data) {
-        if (data === 0) return false;
-
-        return true;
-    }
-    function isQueryEmpty(query) {
-        const trimmed = query.trim()
-        if (trimmed === "") {
-            showToast("query cannot be empty");
-            return true;
-        }
-        if (trimmed.length <= 2) {
-            showToast("query should be atleast 3 characters");
-            return true;
-        }
-        return false;
-    }
-    function showToast(toastMessage) {
-        setToastMessage(toastMessage);
-        setToastSwitch(true);
-        clearTimeout(toastTimerRef.current);
-        toastTimerRef.current = setTimeout(() => {
-            setToastSwitch(false);
-        }, 3000);
-    }
+    const { isLoading, setSelectedImage, isModalOpen, setIsModalOpen, images } = useContext(SearchContext)
     return (
         <>
-            <Navbar pfp={userPfp} />
-            <ShowToast toastMessage={toastMessage} toastSwitch={toastSwitch} />
+            <Navbar />
+            <ShowToast />
             <div className="searchWrapper">
-                <div className="searchBarWrapper">
-                    <input
-                        type="text"
-                        id="SearchBar"
-                        placeholder="enter a word"
-                        autoComplete="off"
-                        value={query}
-                        onChange={(e) => {
-                            setQuery(e.target.value);
-                        }}
-                    />
-                </div>
+                <SearchBar />
+            </div>
+            <div className="loadingState">
                 <div className="isLoadingSpan">{isLoading && <span>Loading ...</span>}</div>
             </div>
             <div className="contentWrapper">
@@ -101,14 +33,9 @@ function App() {
                     />
                 ))}
             </div>
-            {isModalOpen && (
-                <PhotoModal
-                    image={selectedImage}
-                    onClose={() => {
-                        setIsModalOpen(false);
-                    }}
-                />
-            )}
+
+            {/* Photo Modal */}
+            {isModalOpen && <PhotoModal />}
         </>
     );
 }

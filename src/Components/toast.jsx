@@ -1,6 +1,8 @@
+import { useContext } from "react";
 import "../App.css";
-
-export default function ShowToast({ toastMessage, toastSwitch }) {
+import { SearchContext } from "../SearchContext";
+export default function ShowToast() {
+    const { toastMessage, toastSwitch } = useContext(SearchContext)
     return (
         <div className={`toastWrapper ${toastSwitch ? "show" : ""}`}>
             <span className="exclamationMark">!</span>
