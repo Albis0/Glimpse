@@ -143,19 +143,20 @@ body {
     }
 }
 
-.searchOptionsRow{
+.searchOptionsRow {
     width: 100%;
     display: flex;
     justify-content: start;
     align-items: center;
 }
 
-.loadingState{
+.loadingState {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 .contentWrapper {
     columns: 5;
     column-gap: 10px;
@@ -169,6 +170,7 @@ body {
         width: 100%;
         height: auto;
         transition: .2s ease-in-out;
+        cursor: pointer;
 
         &:hover {
             transform: scale(1.02);
@@ -251,6 +253,7 @@ body {
         background-color: var(--bg-secondary);
         border-radius: var(--space-sm);
         transition: 0.2s ease-in-out;
+        cursor: pointer;
         color: var(--text-secondary);
 
         &:hover {
@@ -344,7 +347,8 @@ header {
     font-size: var(--text-sm);
     cursor: pointer;
     transition: .3s ease-out;
-    &:hover{
+
+    &:hover {
         background-color: var(--foreground);
     }
 }
@@ -357,17 +361,11 @@ header {
     margin-top: var(--space-xxs);
 }
 
-.resulationOption {
+.resolutionOption {
     padding: var(--space-xxs);
     border-bottom: 1px solid var(--bg-primary);
-    width: 80px;
-    
-}
-
-.res1080P,
-.res2K,
-.res4K,
-.resOriginal {
+    width: 100px;
+    font-size: clamp(12px ,15px ,22px);
     &:hover {
         color: var(--text-primary);
         cursor: pointer;

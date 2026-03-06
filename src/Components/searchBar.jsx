@@ -5,15 +5,15 @@ import { useContext } from "react";
 
 function SearchBar() {
 
-    const { query, setQuery, imageFetcher, selectedApi } = useContext(SearchContext)
+    const { query, setQuery, imageFetcher } = useContext(SearchContext)
     return <div className="searchBarWrapper">
         <div className="searchInputRow">
             <input
                 type="text" id="queryInput" placeholder="enter a word" autoComplete="off" value={query}
                 onChange={(e) => { setQuery(e.target.value) }}
-                onKeyDown={(e) => { if (e.key === "Enter") { imageFetcher(selectedApi) } }}
+                onKeyDown={(e) => { if (e.key === "Enter") { imageFetcher() } }}
             />
-            <div className="iconWrapper" onClick={() => { imageFetcher(selectedApi) }} >
+            <div className="iconWrapper" onClick={() => { imageFetcher() }} >
                 <SendIcon color="azure" />
             </div>
         </div>

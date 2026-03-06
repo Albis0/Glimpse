@@ -6,10 +6,18 @@ const SearchContext = createContext()
 export function SearchProvider({ children }) {
     const clientID = import.meta.env.VITE_unsplashAccessKey;
     const unsplashAPI = import.meta.env.VITE_unsplashAPI;
+
     const pexelsApi = import.meta.env.VITE_pexelsAPI;
     const pexelsApiKey = import.meta.env.VITE_pexelsAPIKey;
+
     const pixabayApi = import.meta.env.VITE_pixabayAPI;
     const pixabayApiKey = import.meta.env.VITE_pixabayAPIKey;
+
+    const unsplashRes = [`thumb`, `small`, `regular`, `full`]
+    const pexelsRes = [`tiny`, `medium`, `large`, `original`]
+    const pixabayRes = [`preview`, `webformat`, `large`, `full`]
+
+    const [selectedResolution, setSelectedResolution] = useState('unsplashRes')
     const [images, setImages] = useState([]);
     const [query, setQuery] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -20,26 +28,25 @@ export function SearchProvider({ children }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const userPfp = null
     const [selectedApi, setSelectedApi] = useState('unsplash')
-    const [selectedResolution, setSelectedResolution] = useState('1080P')
 
-    async function imageFetcher(apiName) {
+    async function imageFetcher() {
         if (isLoading || isQueryEmpty(query)) return;
         setIsLoading(true)
         try {
-            if (apiName === "unsplash") {
+            if (selectedApi === "unsplash") {
                 const { data } = await axios.get(unsplashAPI, { params: { client_id: clientID, query: query, per_page: 40 } });
                 if (!fetchImagesValidate(data.total)) throw new Error("404 no photo found");
                 const photos = data.results.map((photo) => ({ id: photo.id, url: photo.urls.regular }));
                 setImages(photos);;
             }
 
-            if (apiName === "pexels") {
+            if (selectedApi === "pexels") {
                 const { data } = await axios.get(pexelsApi, { params: { query: query, per_page: 80 }, headers: { Authorization: pexelsApiKey } });
                 if (!fetchImagesValidate(data.total_results)) throw new Error("404 no photo found");
                 const photos = data.photos.map((photo) => ({ id: photo.id, url: photo.src.large }));
                 setImages(photos);
             }
-            if (apiName === 'pixabay') {
+            if (selectedApi === 'pixabay') {
                 const { data } = await axios.get(pixabayApi, { params: { key: pixabayApiKey, q: query, image_type: "photo", per_page: 100 } })
                 if (!fetchImagesValidate(data.total)) throw new Error("404 no photo found");
                 const photos = data.hits.map((photo) => ({ id: photo.id, url: photo.webformatURL }));
@@ -70,6 +77,9 @@ export function SearchProvider({ children }) {
         }
         return false;
     }
+
+
+
     function showToast(toastMessage) {
         setToastMessage(toastMessage);
         setToastSwitch(true);
@@ -84,7 +94,7 @@ export function SearchProvider({ children }) {
             imageFetcher, images, setImages,
             query, setQuery, isLoading, toastMessage, toastSwitch,
             selectedImage, setSelectedImage, isModalOpen, setIsModalOpen, selectedApi, setSelectedApi,
-            selectedResolution, setSelectedResolution, userPfp
+            selectedResolution, setSelectedResolution, userPfp, unsplashRes, pexelsRes, pixabayRes
         }}>{children}</SearchContext.Provider>
     )
 }

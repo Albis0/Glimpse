@@ -6,7 +6,7 @@ Pick a provider, type a keyword, and browse results.
 ## Features
 
 - Keyword search
-- Provider selection: **Unsplash** / **Pexels**
+- Provider selection: **Unsplash** / **Pexels** / **Pixabay**
 - Masonry-style grid layout
 - Basic loading state + basic toast notifications
 - Image preview modal
@@ -35,7 +35,6 @@ cp .env.example .env
 
 Then edit `.env` and add your API keys.
 
-> Do not commit `.env` to GitHub. Keep your keys private.
 
 ## Roadmap
 
@@ -43,7 +42,7 @@ Then edit `.env` and add your API keys.
 - [ ] Infinite scroll (Pinterest-style)
 - [ ] Better error states (network / rate limit / empty)
 - [ ] Responsive UI improvements
-- [ ] More providers (Pixabay, etc.)
+- [✓] More providers (Pixabay, etc.)
 - [ ] User accounts
 - [ ] Favorites
 
@@ -53,4 +52,4 @@ Then edit `.env` and add your API keys.
 React (Vite) • CSS3 • Axios
 
 **APIs**  
-Unsplash • Pexels
+Unsplash • Pexels • Pixabay 
