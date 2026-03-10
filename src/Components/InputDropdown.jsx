@@ -5,12 +5,10 @@ function InputDropdown() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
     const { selectedResolution, setSelectedResolution, unsplashRes, pexelsRes, pixabayRes, selectedApi } = useContext(SearchContext)
 
-
     let currentList = []
     if (selectedApi === `unsplash`) currentList = unsplashRes
     if (selectedApi === `pexels`) currentList = pexelsRes
     if (selectedApi === `pixabay`) currentList = pixabayRes
-
 
     function changeResulation(newResulation) {
         setSelectedResolution(newResulation)

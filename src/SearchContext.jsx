@@ -1,11 +1,11 @@
 import axios from "axios";
-import { createContext, useState, useRef } from "react";
+import { createContext, useState, useRef, useEffect } from "react";
 
 const SearchContext = createContext()
 
 export function SearchProvider({ children }) {
+    const unsplashApi = import.meta.env.VITE_unsplashAPI;
     const clientID = import.meta.env.VITE_unsplashAccessKey;
-    const unsplashAPI = import.meta.env.VITE_unsplashAPI;
 
     const pexelsApi = import.meta.env.VITE_pexelsAPI;
     const pexelsApiKey = import.meta.env.VITE_pexelsAPIKey;
@@ -17,7 +17,8 @@ export function SearchProvider({ children }) {
     const pexelsRes = [`tiny`, `medium`, `large`, `original`]
     const pixabayRes = [`preview`, `webformat`, `large`, `full`]
 
-    const [selectedResolution, setSelectedResolution] = useState('unsplashRes')
+    const [selectedApi, setSelectedApi] = useState("unsplash")
+    const [selectedResolution, setSelectedResolution] = useState('thumb')
     const [images, setImages] = useState([]);
     const [query, setQuery] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -27,31 +28,50 @@ export function SearchProvider({ children }) {
     const [selectedImage, setSelectedImage] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const userPfp = null
-    const [selectedApi, setSelectedApi] = useState('unsplash')
+
+    useEffect(() => {
+        if (selectedApi === unsplashApi) setSelectedResolution(unsplashRes[0])
+        if (selectedApi === pexelsApi) setSelectedResolution(pexelsRes[0])
+        if (selectedApi === pixabayApi) setSelectedResolution(pixabayRes[0])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedApi])
+
+    const apiConfigs = {
+        unsplash: {
+            getUrl: unsplashApi,
+            getPhotoUrl: photo => photo.urls[selectedResolution],
+            getHeader: () => ({}),
+            getParam: () => ({ client_id: clientID, query: query, per_page: 40 }),
+            getTotal: (data) => data.total,
+            getMapKey: 'results'
+        },
+        pexels: {
+            getUrl: pexelsApi,
+            getPhotoUrl: photo => photo.src[selectedResolution],
+            getHeader: () => ({ Authorization: pexelsApiKey }),
+            getParam: () => ({ query: query, per_page: 80 }),
+            getTotal: (data) => data.total_results,
+            getMapKey: 'photos'
+        },
+        pixabay: {
+            getUrl: pixabayApi,
+            getPhotoUrl: photo => photo[selectedResolution],
+            getHeader: () => ({}),
+            getParam: () => ({ key: pixabayApiKey, q: query, image_type: "photo", per_page: 100 }),
+            getTotal: (data) => data.total,
+            getMapKey: 'hits'
+        }
+    }
+
 
     async function imageFetcher() {
         if (isLoading || isQueryEmpty(query)) return;
         setIsLoading(true)
         try {
-            if (selectedApi === "unsplash") {
-                const { data } = await axios.get(unsplashAPI, { params: { client_id: clientID, query: query, per_page: 40 } });
-                if (!fetchImagesValidate(data.total)) throw new Error("404 no photo found");
-                const photos = data.results.map((photo) => ({ id: photo.id, url: photo.urls.regular }));
-                setImages(photos);;
-            }
-
-            if (selectedApi === "pexels") {
-                const { data } = await axios.get(pexelsApi, { params: { query: query, per_page: 80 }, headers: { Authorization: pexelsApiKey } });
-                if (!fetchImagesValidate(data.total_results)) throw new Error("404 no photo found");
-                const photos = data.photos.map((photo) => ({ id: photo.id, url: photo.src.large }));
-                setImages(photos);
-            }
-            if (selectedApi === 'pixabay') {
-                const { data } = await axios.get(pixabayApi, { params: { key: pixabayApiKey, q: query, image_type: "photo", per_page: 100 } })
-                if (!fetchImagesValidate(data.total)) throw new Error("404 no photo found");
-                const photos = data.hits.map((photo) => ({ id: photo.id, url: photo.webformatURL }));
-                setImages(photos);;
-            }
+            const { data } = await axios.get(apiConfigs[selectedApi].getUrl, { params: apiConfigs[selectedApi].getParam(), headers: apiConfigs[selectedApi].getHeader() });
+            if (!fetchImagesValidate(apiConfigs[selectedApi].getTotal(data))) throw new Error("404 no photo found");
+            const photos = data[apiConfigs[selectedApi].getMapKey].map((photo) => ({ id: photo.id, url: apiConfigs[selectedApi].getPhotoUrl(photo) }));
+            setImages(photos);
 
         } catch (error) {
             showToast(` ${error.message} `)
