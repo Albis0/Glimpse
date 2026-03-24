@@ -112,7 +112,7 @@ export function SearchProvider({ children }) {
     return (
         <SearchContext.Provider value={{
             imageFetcher, images, setImages,
-            query, setQuery, isLoading, toastMessage, toastSwitch,
+            query, setQuery, isLoading, toastSwitch,toastMessage,setToastMessage, showToast,
             selectedImage, setSelectedImage, isModalOpen, setIsModalOpen, selectedApi, setSelectedApi,
             selectedResolution, setSelectedResolution, userPfp, unsplashRes, pexelsRes, pixabayRes
         }}>{children}</SearchContext.Provider>

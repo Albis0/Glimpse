@@ -1,6 +1,7 @@
+import "../css/Modal.css"
 import { useContext } from 'react';
 import { DownloadIcon } from '../Components/SvgIcons'
-import { SearchContext } from "../SearchContext";
+import { SearchContext } from "../context/SearchContext";
 
 function PhotoModal() {
     const { selectedImage, setIsModalOpen } = useContext(SearchContext)
@@ -21,7 +22,7 @@ function PhotoModal() {
         }
     }
     return (
-        <div className="modalContainer" onClick={() => setIsModalOpen(false)    }>
+        <div className="modalContainer" onClick={() => setIsModalOpen(false)}>
             <div className="photoModal" onClick={(e) => { e.stopPropagation(); }}>
                 <img src={selectedImage} alt="modalPhoto" id="modalImage" />
                 <div className="downloadImageSVG" onClick={() => { handleDownload(); }}>

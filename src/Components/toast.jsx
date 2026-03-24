@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import "../App.css";
-import { SearchContext } from "../SearchContext";
+import "../css/App.css";
+import { SearchContext } from "../context/SearchContext";
 export default function ShowToast() {
     const { toastMessage, toastSwitch } = useContext(SearchContext)
     return (

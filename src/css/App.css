@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
-
 :root {
     /* bacground & foreground */
     --bg-primary: oklch(15% 0.02 260);
@@ -31,6 +30,7 @@
     --text-muted: oklch(50% 0.01 260);
 
     /* font size & weight */
+    --text-xxs: 0.5rem;
     --text-xs: 0.75rem;
     --text-sm: 0.875rem;
     --text-md: 1rem;
@@ -63,6 +63,8 @@
     --space-lg: 1.25rem;
     --space-xl: 1.5rem;
     --space-xxl: 2rem;
+    --space-xxxl: 3rem;
+
 }
 
 * {
@@ -77,7 +79,7 @@ body {
         system-ui,
         -apple-system,
         sans-serif;
-    background: url(./assets/images/background.jpg);
+    background: url(../assets/images/background.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -211,59 +213,7 @@ body {
     color: var(--text-primary);
 }
 
-.modalContainer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100vw;
-    height: 100vh;
-    background-color: oklch(10% 0.02 260 / 0.9);
-    z-index: 1000;
-    user-select: none;
-}
 
-.photoModal {
-    position: relative;
-    width: auto;
-    height: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    max-width: 81vw;
-    max-height: 81vh;
-    border: 2px dashed var(--border-medium);
-    border-radius: var(--space-sm);
-    padding: 5px;
-
-    img {
-        max-width: 80vw;
-        max-height: 80vh;
-        object-fit: contain;
-        border-radius: var(--space-sm);
-    }
-
-    .downloadImageSVG {
-        position: absolute;
-        bottom: 0.75rem;
-        right: 0.75rem;
-        width: 2rem;
-        height: 2rem;
-        padding: var(--space-xxs);
-        background-color: var(--bg-secondary);
-        border-radius: var(--space-sm);
-        transition: 0.2s ease-in-out;
-        cursor: pointer;
-        color: var(--text-secondary);
-
-        &:hover {
-            background-color: var(--bg-tertiary);
-            color: var(--text-primary);
-        }
-    }
-}
 
 @media (max-width:1440px) {
     .contentWrapper {
@@ -321,6 +271,7 @@ header {
     &:hover {
         color: var(--text-primary);
         background-color: var(--bg-tertiary);
+        transform: scale(1.05);
     }
 }
 
@@ -372,5 +323,27 @@ header {
     &:hover {
         color: var(--text-primary);
         cursor: pointer;
+    }
+}
+.navbarButtonWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-xs);
+}
+.navbarButton{
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--bg-tertiary);
+    color: var(--text-primary);
+    font-size: var(--text-xs);
+    border-radius: var(--space-xs);
+    padding: var(--space-xs);
+    cursor: pointer;
+    transition: .1s ease-in-out;
+    &:hover{
+        transform: scale(1.05);
+    }
+    &:active{
+        transform: scale(0.95);
     }
 }

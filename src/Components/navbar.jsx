@@ -1,8 +1,10 @@
 import { useContext } from "react";
-import { SearchContext } from "../SearchContext";
+import { SearchContext } from "../context/SearchContext";
+import { UserContext } from "../context/UserContext";
 
 export default function Navbar() {
     const { userPfp, selectedApi, setSelectedApi } = useContext(SearchContext)
+    const { isLoggedIn, setIsAuthModalOpen, setAuthMode } = useContext(UserContext)
     return <header>
         <div className="appName">Glimpse</div>
         <div className="apiSelect">
@@ -14,7 +16,13 @@ export default function Navbar() {
                 className={`navbarAPI ${selectedApi === 'pixabay' ? 'active ' : ''} navbarPixabay`}>Pixabay</div>
         </div>
         <div className="userProfile">
-            <img src={userPfp ? userPfp : `/src/assets/images/defaultUserPfp.jpg`} alt="userPfp" id="userPfp" />
+            {isLoggedIn ?
+                <img src={userPfp ? userPfp : `/src/assets/images/defaultUserPfp.jpg`} alt="userPfp" id="userPfp" />
+                : <div className="navbarButtonWrapper">
+                    <button className="navbarButton" onClick={() => { setIsAuthModalOpen(true); setAuthMode('signup') }}>Sign Up</button>
+                    <button className="navbarButton" onClick={() => { setIsAuthModalOpen(true); setAuthMode("login") }}>Log In</button>
+                </div>
+            }
         </div>
     </header>;
 }

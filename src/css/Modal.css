@@ -1,0 +1,151 @@
+
+.modalContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: oklch(10% 0.02 260 / 0.9);
+    z-index: 1000;
+    user-select: none;
+}
+
+.photoModal {
+    position: relative;
+    width: auto;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 81vw;
+    max-height: 81vh;
+    border: 2px dashed var(--border-medium);
+    border-radius: var(--space-sm);
+    padding: 5px;
+
+    img {
+        max-width: 80vw;
+        max-height: 80vh;
+        object-fit: contain;
+        border-radius: var(--space-sm);
+    }
+
+    .downloadImageSVG {
+        position: absolute;
+        bottom: 0.75rem;
+        right: 0.75rem;
+        width: 2rem;
+        height: 2rem;
+        padding: var(--space-xxs);
+        background-color: var(--bg-secondary);
+        border-radius: var(--space-sm);
+        transition: 0.2s ease-in-out;
+        cursor: pointer;
+        color: var(--text-secondary);
+
+        &:hover {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+    }
+}
+
+
+.AuthModal {
+    position: relative;
+    max-width: 400px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    height: auto;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    padding: var(--space-xxxl) var(--space-xl);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--space-xs);
+    gap: var(--space-md);
+
+    .modalHeader {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .inputContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-self: start;
+        gap: var(--space-xxs);
+        width: 100%;
+
+        input {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-medium);
+            outline: none;
+            padding: var(--space-xs);
+            border-radius: var(--space-xs);
+        }
+    }
+
+    .interactions { 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: start;
+        gap: var(--space-xs);
+        width: 100%;
+        margin-top: var(--space-sm);
+
+        button {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-medium);
+            border-radius: var(--space-xs);
+            padding: var(--space-xs);
+            cursor: pointer;
+            transition: .1s ease-in-out;
+
+            &:hover {
+                box-shadow: 2px 2px 8px var(--border-dark);
+            }
+
+            &:active {
+                transform: scale(0.95);
+            }
+        }
+
+        #AuthModalSubmit {
+            width: 100%;
+
+        }
+
+        .extraButtons {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            gap: var(--space-xxs);
+            width: 100%;
+            height: 100%;
+
+            #forgotPassword {
+                width: 50%;
+                height: 100%;
+                white-space: nowrap;
+            }
+
+            #AuthModalChangeButton {
+                width: 50%;
+                height: 100%;
+
+            }
+        }
+    }
+}

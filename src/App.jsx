@@ -1,4 +1,4 @@
-import "./App.css";
+import "./css/App.css";
 // components
 import RenderImageCard from "./Components/imageCardRender";
 import ShowToast from "./Components/toast";
@@ -7,10 +7,13 @@ import SearchBar from "./Components/searchBar";
 
 
 import PhotoModal from "./modals/photoModal";
+import AuthModal from "./modals/AuthModal";
 import { useContext } from "react";
-import { SearchContext } from "./SearchContext";
+import { SearchContext } from "./context/SearchContext";
+import { UserContext } from "./context/UserContext";
 function App() {
     const { isLoading, setSelectedImage, isModalOpen, setIsModalOpen, images } = useContext(SearchContext)
+    const { isAuthModalOpen,  } = useContext(UserContext)
     return (
         <>
             <Navbar />
@@ -36,6 +39,8 @@ function App() {
 
             {/* Photo Modal */}
             {isModalOpen && <PhotoModal />}
+            {/* Auth Modal */}
+            {isAuthModalOpen && <AuthModal/> }
         </>
     );
 }

@@ -1,6 +1,6 @@
 import { SendIcon } from "./SvgIcons"
 import InputDropdown from "./InputDropdown";
-import { SearchContext } from "../SearchContext";
+import { SearchContext } from "../context/SearchContext";
 import { useContext } from "react";
 
 function SearchBar() {

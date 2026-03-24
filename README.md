@@ -38,7 +38,7 @@ Then edit `.env` and add your API keys.
 
 ## Roadmap
 
-- [ ] Image quality selector (thumbnail / HD / Full HD / 4K / original)
+- [✓] Image quality selector (thumbnail / HD / Full HD / 4K / original)
 - [ ] Infinite scroll (Pinterest-style)
 - [ ] Better error states (network / rate limit / empty)
 - [ ] Responsive UI improvements
@@ -53,3 +53,6 @@ React (Vite) • CSS3 • Axios
 
 **APIs**  
 Unsplash • Pexels • Pixabay 
+
+**Backend**
+node • express • bcryptjs • jwt • mongoDB • multer
