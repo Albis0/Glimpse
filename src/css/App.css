@@ -173,6 +173,7 @@ body {
         height: auto;
         transition: .2s ease-in-out;
         cursor: pointer;
+        border-radius: var(--space-xxs);
 
         &:hover {
             transform: scale(1.02);
@@ -195,7 +196,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    z-index: 101;
+    z-index: 1111;
     transition: 1.5s ease;
 
     #toastMessage {

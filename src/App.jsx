@@ -13,7 +13,7 @@ import { SearchContext } from "./context/SearchContext";
 import { UserContext } from "./context/UserContext";
 function App() {
     const { isLoading, setSelectedImage, isModalOpen, setIsModalOpen, images } = useContext(SearchContext)
-    const { isAuthModalOpen,  } = useContext(UserContext)
+    const { isAuthModalOpen } = useContext(UserContext)
     return (
         <>
             <Navbar />
@@ -40,7 +40,7 @@ function App() {
             {/* Photo Modal */}
             {isModalOpen && <PhotoModal />}
             {/* Auth Modal */}
-            {isAuthModalOpen && <AuthModal/> }
+            {isAuthModalOpen && <AuthModal />}
         </>
     );
 }

@@ -4,39 +4,42 @@ import { UserContext } from "../context/UserContext";
 import { SearchContext } from "../context/SearchContext";
 
 import axios from "axios";
-
+const APIURL = import.meta.env.VITE_API_URL
 function AuthModal() {
     const { username, setUsername, email, setEmail, password, setPassword, authMode, setAuthMode, setIsAuthModalOpen, setIsLoggedIn } = useContext(UserContext)
-    const { toastMessage, setToastMessage, showToast } = useContext(SearchContext)
+    const { showToast } = useContext(SearchContext)
     async function handleLogIn() {
         try {
-            const response = await axios.post("http://localhost:1881/api/auth/login", { email, password })
-            if (response.status != 200) return setToastMessage("something went wrong try again")
+            const response = await axios.post(`${APIURL}/api/auth/login`, { email, password })
+            if (response.status != 200) return showToast("something went wrong try again")
 
-            localStorage.setItem("token", response.data.token)
+            saveUserInfoToLocalstorage(response)
+
             setIsAuthModalOpen(false)
             setIsLoggedIn(true)
-            setToastMessage("Sign Up Complete!")
+            showToast("Log In Complete!")
         } catch (error) {
             console.log(error);
-        } finally {
-            showToast(toastMessage)
+            showToast(error.response?.data?.message || "An Error Occurred")
         }
     }
     async function handleSignUp() {
         try {
-            const response = await axios.post("http://localhost:1881/api/auth/signup", { username, email, password })
-            if (response.status != 201) return setToastMessage("something went wrong try again")
+            const response = await axios.post(`${APIURL}/api/auth/signup`, { username, email, password })
+            if (response.status != 201) return showToast("something went wrong try again")
             setAuthMode("login")
-            setToastMessage("Sign Up Complete!")
-
+            showToast("Sign Up Complete!")
         } catch (error) {
             console.log(error);
-        } finally {
-            showToast(toastMessage)
+            showToast(error.response?.data?.message || "An Error Occurred")
         }
     }
 
+    function saveUserInfoToLocalstorage(response) {
+        localStorage.setItem("token", response.data.token)
+        localStorage.setItem('username', response.data.user.username)
+        localStorage.setItem('email', response.data.user.email)
+    }
     return <div className="modalContainer" onClick={() => { setIsAuthModalOpen(false) }}>
         <div className="AuthModal" onClick={(e) => { e.stopPropagation() }}>
             <h2 className="modalHeader">{authMode === "signup" ? "Sign Up" : "Log In"}</h2>
@@ -55,7 +58,7 @@ function AuthModal() {
 
                 <div className="extraButtons">
                     <button id="forgotPassword" tabIndex={5}>Forgot Password</button>
-                    <button id="AuthModalChangeButton">{authMode === "signup" ? "Log In" : "Sign up"}</button>
+                    <button id="AuthModalChangeButton" onClick={() => { setAuthMode(authMode === 'signup' ? "login" : 'signup') }}>{authMode === "signup" ? "Log In" : "Sign up"}</button>
                 </div>
             </div>
         </div>
