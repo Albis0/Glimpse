@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./Config/db.js";
 import authRouter from "./Routes/auth.js";
-import favoriteRouter from "./Routes/favorites.js";
+import favoritesRouter from "./Routes/favorites.js";
 dotenv.config();
 
 const app = express();
@@ -14,7 +14,7 @@ app.use(express.json());
 connectDB();
 
 app.use("/api/auth", authRouter);
-app.use("/api/favorite", favoriteRouter);
+app.use("/api/favorites", favoritesRouter);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

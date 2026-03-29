@@ -6,7 +6,7 @@ const router = express.Router();
 router.use(authMiddleware);
 
 // * Get
-router.get("/favorite", async (req, res) => {
+router.get("/", async (req, res) => {
     try {
         const favorite = await Favorite.find({userId: req.user.userid});
         if (!favorite) return res.status(404).json({message: "No Favorite Found"});
@@ -18,7 +18,7 @@ router.get("/favorite", async (req, res) => {
 });
 
 // * Post
-router.post("/favorite", async (req, res) => {
+router.post("/", async (req, res) => {
     try {
         const {imageUrl, imageApi} = req.body;
 
@@ -36,7 +36,7 @@ router.post("/favorite", async (req, res) => {
 });
 
 // * Delete
-router.delete("/favorite/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
     try {
         const favoriteId = req.params.id;
         if (!favoriteId) return res.status(404).json({message: "Favorite Not Found"});

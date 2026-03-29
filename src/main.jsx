@@ -4,12 +4,14 @@ import './css/index.css'
 import App from './App.jsx'
 import { SearchProvider } from './context/SearchContext.jsx'
 import { UserProvider } from './context/UserContext.jsx'
-
+import { FavoritesProvider } from './context/FavoritesContext.jsx'
 createRoot(document.getElementById('root')).render(
     <StrictMode>
         <UserProvider>
             <SearchProvider>
-                <App />
+                <FavoritesProvider>
+                    <App />
+                </FavoritesProvider >
             </SearchProvider>
         </UserProvider>
     </StrictMode>,

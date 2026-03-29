@@ -12,7 +12,7 @@ import { useContext } from "react";
 import { SearchContext } from "./context/SearchContext";
 import { UserContext } from "./context/UserContext";
 function App() {
-    const { isLoading, setSelectedImage, isModalOpen, setIsModalOpen, images } = useContext(SearchContext)
+    const { isLoading, setSelectedImage, isModalOpen, setIsModalOpen, images, selectedApi } = useContext(SearchContext)
     const { isAuthModalOpen } = useContext(UserContext)
     return (
         <>
@@ -29,6 +29,7 @@ function App() {
                     <RenderImageCard
                         key={photo.id}
                         imageUrl={photo.url}
+                        imageApi={selectedApi}
                         onClick={() => {
                             setSelectedImage(photo.url);
                             setIsModalOpen(true);
