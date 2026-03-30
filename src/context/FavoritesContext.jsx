@@ -21,28 +21,36 @@ export function FavoritesProvider({ children }) {
     }
 
     async function fetchFavorites() {
-        const response = await axios.get(`${API_URL}/api/favorites`, { headers: getAuthHeader() });
-        setFavorites(response.data.favorites)
+        try {
+            const response = await axios.get(`${API_URL}/api/favorites`, { headers: getAuthHeader() });
+            setFavorites(response.data.favorites)
+        } catch (error) {
+            console.log(`fetchFavorites Error : ${error}`);
+        }
     }
 
 
     async function toggleFavorite(imageUrl, imageApi) {
-        // if not logged in
-        if (!isLoggedIn) {
-            showToast("Log In To Save Favorites!")
-            return
-        }
+        try {
+            // if not logged in
+            if (!isLoggedIn) {
+                showToast("Log In To Save Favorites!")
+                return
+            }
 
-        // if already in favorites
-        if (isFavorite(imageUrl)) {
-            const favId = favorites.find(fav => fav.imageUrl === imageUrl)._id
-            await axios.delete(`${API_URL}/api/favorites/${favId}`, { headers: getAuthHeader() })
-            setFavorites(prev => prev.filter(fav => fav._id !== favId))
-        }
-        // if not in favorites
-        else {
-            await axios.post(`${API_URL}/api/favorites`, { imageUrl, imageApi }, { headers: getAuthHeader() })
-            fetchFavorites()
+            // if already in favorites
+            if (isFavorite(imageUrl)) {
+                const favId = favorites.find(fav => fav.imageUrl === imageUrl)._id
+                await axios.delete(`${API_URL}/api/favorites/${favId}`, { headers: getAuthHeader() })
+                setFavorites(prev => prev.filter(fav => fav._id !== favId))
+            }
+            // if not in favorites
+            else {
+                await axios.post(`${API_URL}/api/favorites`, { imageUrl, imageApi }, { headers: getAuthHeader() })
+                fetchFavorites()
+            }
+        } catch (error) {
+            console.log(`toggleFavorite Error : ${error}`);
         }
     }
 

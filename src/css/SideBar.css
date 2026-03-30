@@ -1,0 +1,20 @@
+
+.sideBarWrapper {
+    position: fixed;
+    top: 1;
+    left: 0;
+    width: 50px;
+    height: 100vh;
+    padding: var(--space-md);
+    background-color: var(--bg-secondary);
+    z-index: 99;
+}
+
+.sideBarIcons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-md);
+    cursor: pointer;
+}

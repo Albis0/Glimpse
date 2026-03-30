@@ -43,7 +43,7 @@ Then edit `.env` and add your API keys.
 - [ ] Better error states (network / rate limit / empty)
 - [ ] Responsive UI improvements
 - [✓] More providers (Pixabay, etc.)
-- [ ] User accounts
+- [✓] User accounts
 - [ ] Favorites
 
 ## Tech Stack

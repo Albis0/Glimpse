@@ -1,4 +1,4 @@
-import { createContext ,useState } from "react";
+import { createContext, useState } from "react";
 
 const UserContext = createContext()
 
@@ -9,6 +9,7 @@ export function UserProvider({ children }) {
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [activeView, setActiveView] = useState('home')
 
 
 
@@ -16,7 +17,8 @@ export function UserProvider({ children }) {
         <UserContext.Provider
             value={{
                 username, setUsername, email, setEmail, password, setPassword,
-                authMode, setAuthMode, isLoggedIn, setIsLoggedIn, isAuthModalOpen, setIsAuthModalOpen
+                authMode, setAuthMode, isLoggedIn, setIsLoggedIn, isAuthModalOpen, setIsAuthModalOpen,
+                activeView, setActiveView
             }}>
             {children}</UserContext.Provider>
     )

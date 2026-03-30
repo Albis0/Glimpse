@@ -1,0 +1,6 @@
+.favoritesViewWrapper{
+    width: 100%;
+    padding: var(--space-sm) var(--space-sm) var(--space-sm) 60px;
+    columns: 5;
+    column-gap: 10px;
+}
