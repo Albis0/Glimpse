@@ -1,3 +1,4 @@
+import "../css/Toast.css"
 import { useContext } from "react";
 import "../css/App.css";
 import { SearchContext } from "../context/SearchContext";

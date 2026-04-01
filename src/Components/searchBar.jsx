@@ -1,3 +1,4 @@
+import "../css/SearchBar.css"
 import { SendIcon } from "./SvgIcons"
 import InputDropdown from "./InputDropdown";
 import { SearchContext } from "../context/SearchContext";

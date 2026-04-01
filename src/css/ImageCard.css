@@ -1,0 +1,33 @@
+
+.imageWrapper {
+    break-inside: avoid;
+    position: relative;
+
+    img {
+        width: 100%;
+        height: auto;
+        transition: .2s ease-in-out;
+        cursor: pointer;
+        border-radius: var(--space-xxs);
+
+
+    }
+
+    &:hover img {
+        transform: scale(1.02);
+    }
+
+    .iconSpan {
+        position: absolute;
+        bottom: 0.5rem;
+        right: 0.5rem;
+        padding: var(--space-xxs);
+        transition: .2s ease-in-out;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    &:hover .iconSpan {
+        opacity: 1;
+    }
+}

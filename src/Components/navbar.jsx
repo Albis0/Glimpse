@@ -1,3 +1,4 @@
+import "../css/navbar.css"
 import { useContext } from "react";
 import { SearchContext } from "../context/SearchContext";
 import { UserContext } from "../context/UserContext";

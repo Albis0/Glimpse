@@ -1,0 +1,81 @@
+header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    background-color: var(--bg-primary);
+    z-index: 100;
+}
+
+.appName {
+    color: var(--primary);
+}
+.apiSelect{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-xs);
+}
+.navbarAPI {
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: .2s ease-in;
+    background-color: var(--bg-secondary);
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: var(--text-sm);
+    user-select: none;
+
+    &:hover {
+        color: var(--text-primary);
+        background-color: var(--bg-tertiary);
+        transform: scale(1.05);
+    }
+}
+
+.active {
+    color: var(--text-primary);
+    background-color: var(--bg-tertiary);
+}
+
+.userProfile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#userPfp {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.navbarButtonWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.navbarButton {
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--bg-tertiary);
+    color: var(--text-primary);
+    font-size: var(--text-xs);
+    border-radius: var(--space-xs);
+    padding: var(--space-xs);
+    cursor: pointer;
+    transition: .1s ease-in-out;
+
+    &:hover {
+        transform: scale(1.05);
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+}

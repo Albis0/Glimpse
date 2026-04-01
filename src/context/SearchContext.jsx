@@ -74,8 +74,15 @@ export function SearchProvider({ children }) {
             setImages(photos);
 
         } catch (error) {
-            showToast(` ${error.message} `)
-            console.log(`error occurred: ${error}`);
+            if (error.response?.status === 429 ) {
+                showToast("Rate Limit! Try Using Other Options!")
+                console.log(`Rate Limit: ${error}`);
+            }
+            else {
+                showToast(` ${error.message} `)
+                console.log(`error occurred: ${error}`);
+            }
+
         }
         finally { setIsLoading(false) }
     }
@@ -112,7 +119,7 @@ export function SearchProvider({ children }) {
     return (
         <SearchContext.Provider value={{
             imageFetcher, images, setImages,
-            query, setQuery, isLoading, toastSwitch,toastMessage,setToastMessage, showToast,
+            query, setQuery, isLoading, toastSwitch, toastMessage, setToastMessage, showToast,
             selectedImage, setSelectedImage, isModalOpen, setIsModalOpen, selectedApi, setSelectedApi,
             selectedResolution, setSelectedResolution, userPfp, unsplashRes, pexelsRes, pixabayRes
         }}>{children}</SearchContext.Provider>

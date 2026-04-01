@@ -1,3 +1,4 @@
+import "../css/ImageCard.css"
 import { FavoriteIcon, } from "./SvgIcons"
 import { FavoritesContext } from "../context/FavoritesContext";
 import { useContext } from "react";

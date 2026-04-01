@@ -8,9 +8,6 @@
         sans-serif;
 }
 
-body {
-    width: 100%;
-}
 
 html {
     &::-webkit-scrollbar {

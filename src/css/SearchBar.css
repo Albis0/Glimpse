@@ -1,0 +1,93 @@
+
+.searchWrapper {
+    width: 100%;
+    padding: var(--space-md);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    user-select: none;
+}
+
+.searchBarWrapper {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-dark);
+    border-radius: var(--space-xs);
+    padding: var(--space-xs);
+}
+
+.searchInputRow {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    #queryInput {
+        width: 100%;
+        padding: var(--space-xs);
+        background: transparent;
+        border-radius: var(--space-xxs);
+        border: none;
+        outline: none;
+        color: var(--text-primary);
+    }
+
+    .iconWrapper {
+        position: absolute;
+        top: var(--space-xs);
+        right: var(--space-xs);
+        cursor: pointer;
+        transition: .1s ease-in-out;
+
+        &:active {
+            transform: scale(0.95);
+        }
+    }
+}
+
+.searchOptionsRow {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.resulationSelect {
+    padding: var(--space-xxs);
+    border-radius: var(--space-xxs);
+    color: var(--text-primary);
+    width: 80px;
+    font-size: var(--text-sm);
+    cursor: pointer;
+    transition: .3s ease-out;
+
+    &:hover {
+        background-color: var(--foreground);
+    }
+}
+
+.optionWrapper {
+    position: absolute;
+    border-radius: var(--space-xxs);
+    border: 1px solid var(--bg-secondary);
+    color: var(--text-secondary);
+    margin-top: var(--space-xxs);
+    z-index: 100;
+}
+
+.resolutionOption {
+    padding: var(--space-xxs);
+    border-bottom: 1px solid var(--bg-primary);
+    width: 100px;
+    font-size: clamp(12px, 15px, 22px);
+
+    &:hover {
+        color: var(--text-primary);
+        cursor: pointer;
+    }
+}
