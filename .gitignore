@@ -29,5 +29,8 @@ dist-ssr
 # public
 public
 
-#uploads
+# uploads
 uploads
+
+# vercel
+.vercel
