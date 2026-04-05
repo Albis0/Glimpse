@@ -1,4 +1,3 @@
-
 .modalContainer {
     position: fixed;
     top: 0;
@@ -13,6 +12,7 @@
     user-select: none;
 }
 
+/* * Photo Modal */
 .photoModal {
     position: relative;
     width: auto;
@@ -53,6 +53,7 @@
     }
 }
 
+/* * Auth Modal */
 
 .AuthModal {
     position: relative;
@@ -95,7 +96,7 @@
         }
     }
 
-    .interactions { 
+    .interactions {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -148,4 +149,96 @@
             }
         }
     }
+}
+
+/* * User Profile Modal */
+.UserProfileContainer {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap: 10px;
+    max-width: 400px;
+    width: 90%;
+    height: auto;
+    padding: var(--space-md);
+    border-radius: var(--space-md);
+    border: 1px solid var(--border-dark);
+    background-color: var(--bg-primary);
+}
+
+.UserProfileWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    gap: var(--space-sm);
+}
+
+.userPfpContainer {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: cornflowerblue;
+    font-size: var(--space-sm);
+    text-align: center;
+    gap: var(--space-md);
+
+    span {
+        cursor: pointer;
+    }
+}
+
+.userPfpWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px dashed var(--border-dark);
+    padding: var(--space-xs);
+    overflow: hidden;
+    .userPfp {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+    }
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    gap: var(--space-xs);
+    color: var(--text-primary);
+    width: 70%;
+
+    p {
+        font-weight: 100;
+    }
+}
+
+.logOutWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    width: 100%;
+}
+
+.logOutBtn {
+    padding: var(--space-xs) var(--space-sm);
+    background-color: var(--danger);
+    border: 1px solid var(--danger-hover);
+    border-radius: var(--space-sm);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: .7s ease-in;
+    &:hover{background-color: var(--danger-hover);}
+    &:active{transform: scale(0.95);}
 }

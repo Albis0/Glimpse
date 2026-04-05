@@ -7,6 +7,7 @@ import SideBar from "./Components/Sidebar";
 
 import PhotoModal from "./modals/photoModal";
 import AuthModal from "./modals/AuthModal";
+import UserProfileModal from "./modals/userProfileModal";
 
 import { SearchContext } from "./context/SearchContext";
 import { UserContext } from "./context/UserContext";
@@ -15,9 +16,8 @@ import HomeView from "./views/HomeView";
 import FavoritesView from "./views/FavoritesView";
 
 function App() {
-    const { isAuthModalOpen, activeView } = useContext(UserContext)
+    const { isProfileModalOpen, isAuthModalOpen, activeView } = useContext(UserContext)
     const { isModalOpen, } = useContext(SearchContext)
-    localStorage.clear()
     return (
         <>
             <Navbar />
@@ -32,6 +32,8 @@ function App() {
             {isModalOpen && <PhotoModal />}
             {/* Auth Modal */}
             {isAuthModalOpen && <AuthModal />}
+            {/* User Profile Modal */}
+            {isProfileModalOpen && <UserProfileModal />}
         </>
     );
 }

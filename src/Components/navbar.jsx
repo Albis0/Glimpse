@@ -4,8 +4,9 @@ import { SearchContext } from "../context/SearchContext";
 import { UserContext } from "../context/UserContext";
 
 export default function Navbar() {
-    const { userPfp, selectedApi, setSelectedApi } = useContext(SearchContext)
-    const { isLoggedIn, setIsAuthModalOpen, setAuthMode } = useContext(UserContext)
+    const { selectedApi, setSelectedApi } = useContext(SearchContext)
+    const { userPfp, isLoggedIn, setIsAuthModalOpen, setAuthMode,  setIsProfileModalOpen } = useContext(UserContext)
+
     return <header>
         <div className="appName">Glimpse</div>
         <div className="apiSelect">
@@ -18,7 +19,7 @@ export default function Navbar() {
         </div>
         <div className="userProfile">
             {isLoggedIn ?
-                <img src={userPfp ? userPfp : `/src/assets/images/defaultUserPfp.jpg`} alt="userPfp" id="userPfp" />
+                <img src={userPfp ? userPfp : `/src/assets/images/defaultUserPfp.jpg`} alt="userPfp" id="userPfp" onClick={() => { setIsProfileModalOpen(true) }} />
                 : <div className="navbarButtonWrapper">
                     <button className="navbarButton" onClick={() => { setIsAuthModalOpen(true); setAuthMode('signup') }}>Sign Up</button>
                     <button className="navbarButton" onClick={() => { setIsAuthModalOpen(true); setAuthMode("login") }}>Log In</button>

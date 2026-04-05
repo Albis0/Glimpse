@@ -18,7 +18,6 @@ function FavoritesView() {
                 }}
             />
         ))}
-        {console.log(favorites)}
     </div>;
 }
 

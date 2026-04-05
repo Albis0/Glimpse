@@ -7,12 +7,12 @@ import { UserProvider } from './context/UserContext.jsx'
 import { FavoritesProvider } from './context/FavoritesContext.jsx'
 createRoot(document.getElementById('root')).render(
     <StrictMode>
-        <UserProvider>
-            <SearchProvider>
+        <SearchProvider>
+            <UserProvider>
                 <FavoritesProvider>
                     <App />
                 </FavoritesProvider >
-            </SearchProvider>
-        </UserProvider>
+            </UserProvider>
+        </SearchProvider>
     </StrictMode>,
 )

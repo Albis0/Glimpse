@@ -2,7 +2,8 @@ import express from "express";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../Models/User.js";
-
+import multer from "multer";
+import authMiddleWare from "../Middleware/auth.js";
 const router = express.Router();
 
 // * SIGN UP
@@ -48,6 +49,7 @@ router.post("/login", async (req, res) => {
                 id: existingUser._id,
                 username: existingUser.username,
                 email: existingUser.email,
+                profilePicture: existingUser.profilePicture,
             },
         });
     } catch (error) {
@@ -55,4 +57,25 @@ router.post("/login", async (req, res) => {
     }
 });
 
+// * Profile Picture
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => cb(null, "uploads/"),
+    filename: (req, file, cb) => cb(null, `${Date.now()} - ${file.originalname}`),
+});
+const upload = multer({storage});
+
+router.post("/upload-pfp", authMiddleWare, upload.single("profilePicture"), async (req, res) => {
+    try {
+        if (!req.file) return res.status(400).json({message: "No File Uploaded"});
+
+        const updateUser = await User.findByIdAndUpdate(req.user.userid, {profilePicture: `/uploads/${req.file.filename}`}, {new: true});
+
+        res.status(200).json({
+            message: "Profile Picture Updated",
+            profilePicture: updateUser.profilePicture,
+        });
+    } catch (error) {
+        return res.status(500).json({message: "Server Error", error: error});
+    }
+});
 export default router;

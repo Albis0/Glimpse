@@ -1,45 +1,13 @@
 import "../css/Modal.css"
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
-import { SearchContext } from "../context/SearchContext";
 
-import axios from "axios";
-const APIURL = import.meta.env.VITE_API_URL
 function AuthModal() {
-    const { username, setUsername, email, setEmail, password, setPassword, authMode, setAuthMode, setIsAuthModalOpen, setIsLoggedIn } = useContext(UserContext)
-    const { showToast } = useContext(SearchContext)
-    async function handleLogIn() {
-        try {
-            const response = await axios.post(`${APIURL}/api/auth/login`, { email, password })
-            if (response.status != 200) return showToast("something went wrong try again")
+    const { username, setUsername, email, setEmail, password, setPassword,
+        authMode, setAuthMode, setIsAuthModalOpen, 
+        handleLogIn, handleSignUp
+    } = useContext(UserContext)
 
-            saveUserInfoToLocalstorage(response)
-
-            setIsAuthModalOpen(false)
-            setIsLoggedIn(true)
-            showToast("Log In Complete!")
-        } catch (error) {
-            console.log(error);
-            showToast(error.response?.data?.message || "An Error Occurred")
-        }
-    }
-    async function handleSignUp() {
-        try {
-            const response = await axios.post(`${APIURL}/api/auth/signup`, { username, email, password })
-            if (response.status != 201) return showToast("something went wrong try again")
-            setAuthMode("login")
-            showToast("Sign Up Complete!")
-        } catch (error) {
-            console.log(error);
-            showToast(error.response?.data?.message || "An Error Occurred")
-        }
-    }
-
-    function saveUserInfoToLocalstorage(response) {
-        localStorage.setItem("token", response.data.token)
-        localStorage.setItem('username', response.data.user.username)
-        localStorage.setItem('email', response.data.user.email)
-    }
     return <div className="modalContainer" onClick={() => { setIsAuthModalOpen(false) }}>
         <div className="AuthModal" onClick={(e) => { e.stopPropagation() }}>
             <h2 className="modalHeader">{authMode === "signup" ? "Sign Up" : "Log In"}</h2>

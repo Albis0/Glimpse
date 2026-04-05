@@ -27,8 +27,8 @@ export function SearchProvider({ children }) {
     const toastTimerRef = useRef(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const userPfp = null
 
+    
     useEffect(() => {
         if (selectedApi === unsplashApi) setSelectedResolution(unsplashRes[0])
         if (selectedApi === pexelsApi) setSelectedResolution(pexelsRes[0])
@@ -121,7 +121,7 @@ export function SearchProvider({ children }) {
             imageFetcher, images, setImages,
             query, setQuery, isLoading, toastSwitch, toastMessage, setToastMessage, showToast,
             selectedImage, setSelectedImage, isModalOpen, setIsModalOpen, selectedApi, setSelectedApi,
-            selectedResolution, setSelectedResolution, userPfp, unsplashRes, pexelsRes, pixabayRes
+            selectedResolution, setSelectedResolution, unsplashRes, pexelsRes, pixabayRes
         }}>{children}</SearchContext.Provider>
     )
 }
