@@ -1,13 +1,13 @@
 import "./css/App.css";
 import { useContext } from "react";
 // components
-import ShowToast from "./Components/toast";
-import Navbar from "./Components/navbar";
-import SideBar from "./Components/Sidebar";
+import ShowToast from "./Components/Toast";
+import Navbar from "./Components/Navbar";
+import SideBar from "./Components/SideBar";
 
-import PhotoModal from "./modals/photoModal";
+import PhotoModal from "./modals/PhotoModal";
 import AuthModal from "./modals/AuthModal";
-import UserProfileModal from "./modals/userProfileModal";
+import UserProfileModal from "./modals/UserProfileModal";
 
 import { SearchContext } from "./context/SearchContext";
 import { UserContext } from "./context/UserContext";

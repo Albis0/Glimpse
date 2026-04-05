@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { SearchContext } from "../context/SearchContext";
-import SearchBar from "../Components/searchBar";
-import RenderImageCard from "../Components/imageCardRender";
+import SearchBar from "../Components/SearchBar";
+import RenderImageCard from "../Components/ImageCardRender";
 function HomeView() {
     const { isLoading, setSelectedImage, setIsModalOpen, images, selectedApi } = useContext(SearchContext)
     return <div className="homeViewContainer">

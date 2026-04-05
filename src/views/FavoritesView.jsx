@@ -2,7 +2,7 @@ import '../css/View.css'
 import { useContext } from "react";
 import { FavoritesContext } from "../context/FavoritesContext";
 import { SearchContext } from "../context/SearchContext";
-import RenderImageCard from "../Components/imageCardRender"
+import RenderImageCard from '../Components/ImageCardRender';
 function FavoritesView() {
     const { favorites } = useContext(FavoritesContext)
     const { setSelectedImage, setIsModalOpen } = useContext(SearchContext)
