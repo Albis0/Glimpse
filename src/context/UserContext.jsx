@@ -78,7 +78,7 @@ export function UserProvider({ children }) {
 
         const response = await axios.post(`${API_URL}/api/auth/upload-pfp`, formData, { headers: getAuthHeader() })
 
-        const pfpUrl = `${API_URL}${response.data.profilePicture}`
+        const pfpUrl = response.data.profilePicture
         setUserPfp(pfpUrl)
         localStorage.setItem("userPfp", pfpUrl)
     }

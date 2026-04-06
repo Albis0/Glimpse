@@ -83,7 +83,7 @@
 .resolutionOption {
     padding: var(--space-xxs);
     border-bottom: 1px solid var(--bg-primary);
-    width: 100px;
+    width: 8rem;
     font-size: clamp(12px, 15px, 22px);
 
     &:hover {

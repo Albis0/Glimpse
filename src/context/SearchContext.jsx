@@ -15,7 +15,7 @@ export function SearchProvider({ children }) {
 
     const unsplashRes = [`thumb`, `small`, `regular`, `full`]
     const pexelsRes = [`tiny`, `medium`, `large`, `original`]
-    const pixabayRes = [`preview`, `webformat`, `large`, `full`]
+    const pixabayRes = [`previewURL`, `webformatURL`, `largeImageURL`, `fullHDURL`]
 
     const [selectedApi, setSelectedApi] = useState("unsplash")
     const [selectedResolution, setSelectedResolution] = useState('thumb')

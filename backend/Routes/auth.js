@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import User from "../Models/User.js";
 import multer from "multer";
 import authMiddleWare from "../Middleware/auth.js";
+import getCloudinary from "../Config/cloudinary.js";
 const router = express.Router();
 
 // * SIGN UP
@@ -58,23 +59,30 @@ router.post("/login", async (req, res) => {
 });
 
 // * Profile Picture
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, "uploads/"),
-    filename: (req, file, cb) => cb(null, `${Date.now()} - ${file.originalname}`),
-});
+const storage = multer.memoryStorage();
 const upload = multer({storage});
-
 router.post("/upload-pfp", authMiddleWare, upload.single("profilePicture"), async (req, res) => {
     try {
         if (!req.file) return res.status(400).json({message: "No File Uploaded"});
 
-        const updateUser = await User.findByIdAndUpdate(req.user.userid, {profilePicture: `/uploads/${req.file.filename}`}, {new: true});
+        const cloudinary = getCloudinary();
+
+        const result = await new Promise((resolve, reject) => {
+            const stream = cloudinary.uploader.upload_stream({folder: "glimpse-pfp"}, (error, result) => {
+                if (error) reject(error);
+                else resolve(result);
+            });
+            stream.end(req.file.buffer);
+        });
+
+        const updateUser = await User.findByIdAndUpdate(req.user.userid, {profilePicture: result.secure_url}, {new: true});
 
         res.status(200).json({
             message: "Profile Picture Updated",
             profilePicture: updateUser.profilePicture,
         });
     } catch (error) {
+        console.log(error);
         return res.status(500).json({message: "Server Error", error: error});
     }
 });
