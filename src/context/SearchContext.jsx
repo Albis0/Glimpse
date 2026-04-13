@@ -21,6 +21,7 @@ export function SearchProvider({ children }) {
     const [selectedResolution, setSelectedResolution] = useState('thumb')
     const [images, setImages] = useState([]);
     const [query, setQuery] = useState("");
+    const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const [toastMessage, setToastMessage] = useState("");
     const [toastSwitch, setToastSwitch] = useState(false);
@@ -28,7 +29,7 @@ export function SearchProvider({ children }) {
     const [selectedImage, setSelectedImage] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    
+
     useEffect(() => {
         if (selectedApi === unsplashApi) setSelectedResolution(unsplashRes[0])
         if (selectedApi === pexelsApi) setSelectedResolution(pexelsRes[0])
@@ -41,7 +42,7 @@ export function SearchProvider({ children }) {
             getUrl: unsplashApi,
             getPhotoUrl: photo => photo.urls[selectedResolution],
             getHeader: () => ({}),
-            getParam: () => ({ client_id: clientID, query: query, per_page: 40 }),
+            getParam: () => ({ client_id: clientID, query: query, per_page: 40, page: page }),
             getTotal: (data) => data.total,
             getMapKey: 'results'
         },
@@ -49,7 +50,7 @@ export function SearchProvider({ children }) {
             getUrl: pexelsApi,
             getPhotoUrl: photo => photo.src[selectedResolution],
             getHeader: () => ({ Authorization: pexelsApiKey }),
-            getParam: () => ({ query: query, per_page: 80 }),
+            getParam: () => ({ query: query, per_page: 40, page: page }),
             getTotal: (data) => data.total_results,
             getMapKey: 'photos'
         },
@@ -57,24 +58,26 @@ export function SearchProvider({ children }) {
             getUrl: pixabayApi,
             getPhotoUrl: photo => photo[selectedResolution],
             getHeader: () => ({}),
-            getParam: () => ({ key: pixabayApiKey, q: query, image_type: "photo", per_page: 100 }),
+            getParam: () => ({ key: pixabayApiKey, q: query, image_type: "photo", per_page: 40, page: page }),
             getTotal: (data) => data.total,
             getMapKey: 'hits'
         }
     }
 
 
-    async function imageFetcher() {
+    async function imageFetcher(isLoadMore = false) {
         if (isLoading || isQueryEmpty(query)) return;
         setIsLoading(true)
         try {
             const { data } = await axios.get(apiConfigs[selectedApi].getUrl, { params: apiConfigs[selectedApi].getParam(), headers: apiConfigs[selectedApi].getHeader() });
             if (!fetchImagesValidate(apiConfigs[selectedApi].getTotal(data))) throw new Error("404 no photo found");
-            const photos = data[apiConfigs[selectedApi].getMapKey].map((photo) => ({ id: photo.id, url: apiConfigs[selectedApi].getPhotoUrl(photo) }));
-            setImages(photos);
+            const photos = data[apiConfigs[selectedApi].getMapKey].map((photo) => ({ id: photo.id , url: apiConfigs[selectedApi].getPhotoUrl(photo) }));
 
+
+            if (isLoadMore) setImages(prev => [...prev, ...photos])
+            else setImages(photos);
         } catch (error) {
-            if (error.response?.status === 429 ) {
+            if (error.response?.status === 429) {
                 showToast("Rate Limit! Try Using Other Options!")
                 console.log(`Rate Limit: ${error}`);
             }
@@ -121,7 +124,7 @@ export function SearchProvider({ children }) {
             imageFetcher, images, setImages,
             query, setQuery, isLoading, toastSwitch, toastMessage, setToastMessage, showToast,
             selectedImage, setSelectedImage, isModalOpen, setIsModalOpen, selectedApi, setSelectedApi,
-            selectedResolution, setSelectedResolution, unsplashRes, pexelsRes, pixabayRes
+            selectedResolution, setSelectedResolution, unsplashRes, pexelsRes, pixabayRes, page, setPage
         }}>{children}</SearchContext.Provider>
     )
 }

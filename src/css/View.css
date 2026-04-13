@@ -30,6 +30,9 @@
     padding: var(--space-md);
 }
 
+.observerTarget {
+    height: 20px;
+}
 
 @media (max-width:1440px) {
 
