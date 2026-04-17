@@ -15,7 +15,7 @@ export function SearchProvider({ children }) {
 
     const unsplashRes = [`thumb`, `small`, `regular`, `full`]
     const pexelsRes = [`tiny`, `medium`, `large`, `original`]
-    const pixabayRes = [`previewURL`, `webformatURL`, `largeImageURL`, `fullHDURL`]
+    const pixabayRes = [`previewURL`, `webformatURL`, `largeImageURL`]
 
     const [selectedApi, setSelectedApi] = useState("unsplash")
     const [selectedResolution, setSelectedResolution] = useState('thumb')
@@ -56,7 +56,7 @@ export function SearchProvider({ children }) {
         },
         pixabay: {
             getUrl: pixabayApi,
-            getPhotoUrl: photo => photo[selectedResolution],
+            getPhotoUrl: photo => photo[selectedResolution] || photo.largeImageURL,
             getHeader: () => ({}),
             getParam: () => ({ key: pixabayApiKey, q: query, image_type: "photo", per_page: 40, page: page }),
             getTotal: (data) => data.total,
