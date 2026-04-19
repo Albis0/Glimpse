@@ -3,10 +3,20 @@ import { useContext, useState, useEffect, useRef } from "react";
 import { FavoritesContext } from "../context/FavoritesContext";
 import { SearchContext } from "../context/SearchContext";
 import RenderImageCard from '../Components/ImageCardRender';
+import Masonry from 'react-masonry-css';
 function FavoritesView() {
     const [visibleCount, setVisibleCount] = useState(20)
-
     const observerTarget = useRef(null);
+
+    // * masonry config
+    const breakpointColums = {
+        default: 5,
+        1440: 4,
+        1024: 3,
+        768: 2,
+    }
+
+    // * infinite loader
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
@@ -23,20 +33,20 @@ function FavoritesView() {
     }, [])
     const { favorites } = useContext(FavoritesContext)
     const { setSelectedImage, setIsModalOpen } = useContext(SearchContext)
-    return <div className="favoritesViewWrapper">
-            {favorites.slice(0, visibleCount).map((photo) => (
-                <RenderImageCard
-                    key={photo._id}
-                    imageUrl={photo.imageUrl}
-                    imageApi={photo.imageApi}
-                    onClick={() => {
-                        setSelectedImage(photo.imageUrl);
-                        setIsModalOpen(true);
-                    }}
-                />
-            ))}
-            <div className="observerTarget" ref={observerTarget}></div>
-        </div>
+    return <Masonry breakpointCols={breakpointColums} className="contentWrapper" columnClassName="masonryColums">
+        {favorites.slice(0, visibleCount).map((photo) => (
+            <RenderImageCard
+                key={photo._id}
+                imageUrl={photo.imageUrl}
+                imageApi={photo.imageApi}
+                onClick={() => {
+                    setSelectedImage(photo.imageUrl);
+                    setIsModalOpen(true);
+                }}
+            />
+        ))}
+        <div className="observerTarget" ref={observerTarget}></div>
+    </Masonry>
 }
 
 export default FavoritesView;

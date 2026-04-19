@@ -1,10 +1,21 @@
 import { useContext, useEffect, useRef } from "react";
+import Masonry from "react-masonry-css";
 import { SearchContext } from "../context/SearchContext";
 import SearchBar from "../Components/SearchBar";
 import RenderImageCard from "../Components/ImageCardRender";
 function HomeView() {
     const { isLoading, setSelectedImage, setIsModalOpen, images, selectedApi, setPage, imageFetcher } = useContext(SearchContext)
     const observerTarget = useRef(null);
+
+    // * masonry config
+    const breakpointColums = {
+        default: 5,
+        1440: 4,
+        1024: 3,
+        768: 2,
+    }
+
+    // * infinite loader
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
@@ -21,6 +32,8 @@ function HomeView() {
         return () => observer.disconnect()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [imageFetcher, setPage])
+
+
     return <div className="homeViewContainer">
         <div className="searchWrapper">
             <SearchBar />
@@ -28,7 +41,7 @@ function HomeView() {
         <div className="loadingState">
             <div className="isLoadingSpan">{isLoading && <span>Loading ...</span>}</div>
         </div>
-        <div className="contentWrapper">
+        <Masonry breakpointCols={breakpointColums} className="contentWrapper" columnClassName="masonryColums">
             {images.map((photo, index) => (
                 <RenderImageCard
                     key={`${photo.id}-${index}`}
@@ -41,7 +54,8 @@ function HomeView() {
                 />
             ))}
             <div className="observerTarget" ref={observerTarget}></div>
-        </div></div>;
+        </Masonry>
+    </div>;
 }
 
 export default HomeView;
