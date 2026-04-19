@@ -1,7 +1,7 @@
 
 .sideBarWrapper {
     position: fixed;
-    top: 45px;
+    top: 60px;
     left: 0;
     width: 50px;
     height: calc(100vh - 45px);
