@@ -9,7 +9,7 @@ function FavoritesView() {
     const observerTarget = useRef(null);
 
     // * masonry config
-    const breakpointColums = {
+    const breakpointColumns = {
         default: 5,
         1440: 4,
         1024: 3,
@@ -33,7 +33,7 @@ function FavoritesView() {
     }, [])
     const { favorites } = useContext(FavoritesContext)
     const { setSelectedImage, setIsModalOpen } = useContext(SearchContext)
-    return <Masonry breakpointCols={breakpointColums} className="contentWrapper" columnClassName="masonryColums">
+    return <Masonry breakpointCols={breakpointColumns} className="contentWrapper" columnClassName="masonryColumns">
         {favorites.slice(0, visibleCount).map((photo) => (
             <RenderImageCard
                 key={photo._id}

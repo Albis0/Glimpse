@@ -8,7 +8,7 @@ function HomeView() {
     const observerTarget = useRef(null);
 
     // * masonry config
-    const breakpointColums = {
+    const breakpointColumns = {
         default: 5,
         1440: 4,
         1024: 3,
@@ -41,7 +41,7 @@ function HomeView() {
         <div className="loadingState">
             <div className="isLoadingSpan">{isLoading && <span>Loading ...</span>}</div>
         </div>
-        <Masonry breakpointCols={breakpointColums} className="contentWrapper" columnClassName="masonryColums">
+        <Masonry breakpointCols={breakpointColumns} className="contentWrapper" columnClassName="masonryColumns">
             {images.map((photo, index) => (
                 <RenderImageCard
                     key={`${photo.id}-${index}`}
