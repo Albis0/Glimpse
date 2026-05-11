@@ -1,10 +1,12 @@
 import express from "express";
 import bcryptjs from "bcryptjs";
+import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import User from "../Models/User.js";
 import multer from "multer";
 import authMiddleWare from "../Middleware/auth.js";
 import getCloudinary from "../Config/cloudinary.js";
+import getResend from "../Config/resetPassword.js";
 const router = express.Router();
 
 // * SIGN UP
@@ -86,4 +88,57 @@ router.post("/upload-pfp", authMiddleWare, upload.single("profilePicture"), asyn
         return res.status(500).json({message: "Server Error", error: error});
     }
 });
+
+// * Forgot Password
+router.post("/forgot-password", async (req, res) => {
+    try {
+        const {email} = req.body;
+        const user = await User.findOne({email});
+
+        if (!user) return res.status(404).json({message: "User Not Found"});
+
+        const token = crypto.randomBytes(32).toString("hex");
+        user.resetPasswordToken = token;
+        user.resetPasswordExpires = Date.now() + 15 * 60 * 1000; // 15dk
+        await user.save();
+
+        const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${token}`;
+        const resend = getResend();
+        await resend.emails.send({
+            from: "Glimpse <onboarding@resend.dev>",
+            to: email,
+            subject: "Reset your Glimpse password",
+            html: `<p>Click to reset your password (valid for 15 minutes) </p><a href="${resetUrl}">${resetUrl}</a>`,
+        });
+
+        res.status(200).json({message: "Reset Link Sent"});
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({message: "Server Error", error});
+    }
+});
+
+router.post("forgot-password/:token", async (req, res) => {
+    try {
+        const {token} = req.params;
+        const {password} = req.body;
+
+        const user = await User.findOne({
+            resetPasswordtoken: token,
+            resetPasswordExpires: {$gt: Date.now()},
+        });
+        if (!user) return res.status(400).json({message: "Invalid or Expired Token"});
+
+        user.password = await bcryptjs.hash(password, 10);
+        user.resetPasswordToken = null;
+        user.resetPasswordExpires = null;
+        await user.save();
+
+        res.status(200).json({message: "Password Reset Successful"});
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({message: "Server Error", error});
+    }
+});
+
 export default router;

@@ -1,13 +1,14 @@
 import "../css/SideBar.css"
-import { useContext } from "react";
 import { HomeIcon, FavoriteIcon } from "./SvgIcons";
-import { UserContext } from "../context/UserContext";
+import { useNavigate, useLocation } from "react-router-dom";
 function SideBar() {
-    const { activeView, setActiveView } = useContext(UserContext)
+
+    const navigate = useNavigate()
+    const location = useLocation()
     return <div className="sideBarWrapper">
         <div className="sideBarIcons">
-            <HomeIcon className="HomeIcon" onClick={() => { setActiveView("home") }} filled={activeView === "home" && true} color="azure" />
-            <FavoriteIcon className="FavoritesIcon" onClick={() => { setActiveView("favorites") }} filled={activeView === "favorites" && true} color="azure" />
+            <HomeIcon className="HomeIcon" onClick={() => { navigate("/") }} filled={location.pathname === "/" && true} color="azure" />
+            <FavoriteIcon className="FavoritesIcon" onClick={() => { navigate("/favorites") }} filled={location.pathname === "/favorites" && true} color="azure" />
         </div>
     </div>;
 }

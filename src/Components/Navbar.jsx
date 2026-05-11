@@ -5,7 +5,7 @@ import { UserContext } from "../context/UserContext";
 
 export default function Navbar() {
     const { selectedApi, setSelectedApi } = useContext(SearchContext)
-    const { userPfp, isLoggedIn, setIsAuthModalOpen, setAuthMode,  setIsProfileModalOpen } = useContext(UserContext)
+    const { userPfp, isLoggedIn, setIsAuthModalOpen, setAuthMode, setIsProfileModalOpen } = useContext(UserContext)
 
     return <header>
         <div className="appName">Glimpse</div>

@@ -1,5 +1,6 @@
 import "./css/App.css";
 import { useContext } from "react";
+import { Route, Routes } from "react-router-dom";
 // components
 import ShowToast from "./Components/Toast";
 import Navbar from "./Components/Navbar";
@@ -14,9 +15,10 @@ import { UserContext } from "./context/UserContext";
 
 import HomeView from "./views/HomeView";
 import FavoritesView from "./views/FavoritesView";
+import ResetPasswordView from "./views/ResetPasswordView"
 
 function App() {
-    const { isProfileModalOpen, isAuthModalOpen, activeView } = useContext(UserContext)
+    const { isProfileModalOpen, isAuthModalOpen, } = useContext(UserContext)
     const { isModalOpen, } = useContext(SearchContext)
     return (
         <>
@@ -25,8 +27,11 @@ function App() {
             <ShowToast />
 
             <div className="viewWrapper">
-                {activeView === 'home' && <HomeView />}
-                {activeView === 'favorites' && <FavoritesView />}
+                <Routes>
+                    <Route path="/" element={<HomeView />} />
+                    <Route path="/favorites" element={<FavoritesView />} />
+                    <Route path="/reset-password/:token" element={<ResetPasswordView />} />
+                </Routes>
             </div>
             {/* Photo Modal */}
             {isModalOpen && <PhotoModal />}

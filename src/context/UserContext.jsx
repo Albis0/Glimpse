@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext,useContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { SearchContext } from "./SearchContext";
 
 const UserContext = createContext()
@@ -15,7 +15,6 @@ export function UserProvider({ children }) {
     const [username, setUsername] = useState(localStorage.getItem('username') || "")
     const [email, setEmail] = useState(localStorage.getItem('email') || "")
     const [password, setPassword] = useState("")
-    const [activeView, setActiveView] = useState('home')
     const [userPfp, setUserPfp] = useState(localStorage.getItem('userPfp') || null)
 
     const API_URL = import.meta.env.VITE_API_URL;
@@ -82,13 +81,26 @@ export function UserProvider({ children }) {
         setUserPfp(pfpUrl)
         localStorage.setItem("userPfp", pfpUrl)
     }
+    const handleForgotPassword = async () => {
+        if (email === "") {
+            showToast("Enter your Email")
+            return
+        }
+        try {
+            await axios.post(`${API_URL}/api/auth/forgot-password`, { email })
+
+            showToast("Reset link sent to your email ")
+        } catch (error) {
+            showToast(error.response?.data?.message)
+        }
+    }
     return (
         <UserContext.Provider
             value={{
                 username, setUsername, email, setEmail, password, setPassword, userPfp, setUserPfp,
                 authMode, setAuthMode, isLoggedIn, setIsLoggedIn,
                 isAuthModalOpen, setIsAuthModalOpen, isProfileModalOpen, setIsProfileModalOpen,
-                activeView, setActiveView, handleLogOut, handlePfpUpload,handleLogIn,handleSignUp
+                handleLogOut, handlePfpUpload, handleLogIn, handleSignUp, handleForgotPassword
             }}>
             {children}</UserContext.Provider>
     )

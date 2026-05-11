@@ -1,11 +1,11 @@
 
 .sideBarWrapper {
     position: fixed;
-    top: 60px;
+    top: 50px;
     left: 0;
     width: 50px;
     height: calc(100vh - 45px);
-    padding: var(--space-md);
+    padding: var(--space-xl);
     background-color: var(--bg-secondary);
     z-index: 99;
 }
