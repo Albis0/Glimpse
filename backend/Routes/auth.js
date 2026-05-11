@@ -118,13 +118,13 @@ router.post("/forgot-password", async (req, res) => {
     }
 });
 
-router.post("forgot-password/:token", async (req, res) => {
+router.post("reset-password/:token", async (req, res) => {
     try {
         const {token} = req.params;
         const {password} = req.body;
 
         const user = await User.findOne({
-            resetPasswordtoken: token,
+            resetPasswordToken: token,
             resetPasswordExpires: {$gt: Date.now()},
         });
         if (!user) return res.status(400).json({message: "Invalid or Expired Token"});
