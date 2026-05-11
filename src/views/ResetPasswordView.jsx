@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { SearchContext } from "../context/SearchContext"
-
+import "../css/forgotPassword.css"
 function ResetPasswordView() {
     const API_URL = import.meta.env.VITE_API_URL
 
