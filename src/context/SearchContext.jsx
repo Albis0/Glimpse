@@ -29,11 +29,13 @@ export function SearchProvider({ children }) {
     const [selectedImage, setSelectedImage] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-
+    const resolutionMap = {
+        unsplash: unsplashRes,
+        pexels: pexelsRes,
+        pixabay: pixabayRes
+    }
     useEffect(() => {
-        if (selectedApi === unsplashApi) setSelectedResolution(unsplashRes[0])
-        if (selectedApi === pexelsApi) setSelectedResolution(pexelsRes[0])
-        if (selectedApi === pixabayApi) setSelectedResolution(pixabayRes[0])
+        setSelectedResolution(resolutionMap[selectedApi][0])
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedApi])
 
@@ -71,7 +73,7 @@ export function SearchProvider({ children }) {
         try {
             const { data } = await axios.get(apiConfigs[selectedApi].getUrl, { params: apiConfigs[selectedApi].getParam(), headers: apiConfigs[selectedApi].getHeader() });
             if (!fetchImagesValidate(apiConfigs[selectedApi].getTotal(data))) throw new Error("404 no photo found");
-            const photos = data[apiConfigs[selectedApi].getMapKey].map((photo) => ({ id: photo.id , url: apiConfigs[selectedApi].getPhotoUrl(photo) }));
+            const photos = data[apiConfigs[selectedApi].getMapKey].map((photo) => ({ id: photo.id, url: apiConfigs[selectedApi].getPhotoUrl(photo) }));
 
 
             if (isLoadMore) setImages(prev => [...prev, ...photos])
