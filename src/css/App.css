@@ -79,3 +79,7 @@ body {
     width: 100%;
     min-height: 100vh;
 }
+.viewWrapper{
+    border-radius: var(--space-xxxl);
+    padding-left: 120px;
+}

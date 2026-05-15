@@ -18,7 +18,8 @@ header {
     font-weight: var(--font-bold);
     letter-spacing: 1px;
 }
-.apiSelect{
+
+.apiSelect {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,6 +28,7 @@ header {
     border-radius: var(--space-sm);
     border: 1px solid var(--border-dark);
 }
+
 .navbarAPI {
     color: var(--text-secondary);
     cursor: pointer;
@@ -37,17 +39,20 @@ header {
     border: 1px solid var(--border-medium);
     font-size: var(--text-sm);
     user-select: none;
+
     &:hover {
         color: var(--text-primary);
         background-color: var(--primary);
         transform: scale(1.05);
     }
+
+    &.active {
+        color: var(--text-primary);
+        background-color: var(--primary-low);
+    }
 }
 
-.active {
-    color: var(--text-primary);
-    background-color: var(--primary-low);
-}
+
 
 .userProfile {
     display: flex;
