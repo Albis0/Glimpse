@@ -8,7 +8,9 @@
 
     /* primary & secondary */
     --primary: oklch(35% 0.4 300);
+    --primary-low: oklch(40% 0.4 300);
     --primary-hover: oklch(30% 0.4 300);
+
 
     --secondary: oklch(50% 0.03 260);
     --secondary-hover: oklch(55% 0.03 260);
@@ -73,11 +75,7 @@
 }
 
 body {
-    background: url(../assets/images/background.jpg);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
+    background-color: var(--bg-primary);
     width: 100%;
     min-height: 100vh;
 }

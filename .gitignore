@@ -26,8 +26,5 @@ dist-ssr
 # env
 .env
 
-# public
-public
-
 # vercel
 .vercel

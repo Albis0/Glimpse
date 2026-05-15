@@ -7,8 +7,14 @@ function SideBar() {
     const location = useLocation()
     return <div className="sideBarWrapper">
         <div className="sideBarIcons">
-            <HomeIcon className="HomeIcon" onClick={() => { navigate("/") }} filled={location.pathname === "/" && true} color="azure" />
-            <FavoriteIcon className="FavoritesIcon" onClick={() => { navigate("/favorites") }} filled={location.pathname === "/favorites" && true} color="azure" />
+            <div className="sideBarHome">
+                <HomeIcon className="HomeIcon" onClick={() => { navigate("/") }} filled={location.pathname === "/" && true} color="azure" />
+                <span>Home</span>
+            </div>
+            <div className="sideBarFavorites">
+                <FavoriteIcon className="FavoritesIcon" onClick={() => { navigate("/favorites") }} filled={location.pathname === "/favorites" && true} color="azure" />
+                <span>Favorites</span>
+            </div>
         </div>
     </div>;
 }

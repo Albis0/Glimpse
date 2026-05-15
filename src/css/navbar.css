@@ -7,18 +7,25 @@ header {
     align-items: center;
     width: 100%;
     padding: 10px;
-    background-color: var(--bg-primary);
+    background-color: var(--bg-secondary);
     z-index: 100;
 }
 
 .appName {
     color: var(--primary);
+    user-select: none;
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    letter-spacing: 1px;
 }
 .apiSelect{
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: var(--space-xs);
     gap: var(--space-xs);
+    border-radius: var(--space-sm);
+    border: 1px solid var(--border-dark);
 }
 .navbarAPI {
     color: var(--text-secondary);
@@ -26,20 +33,20 @@ header {
     transition: .2s ease-in;
     background-color: var(--bg-secondary);
     padding: 8px 12px;
-    border-radius: 5px;
+    border-radius: var(--space-xs);
+    border: 1px solid var(--border-medium);
     font-size: var(--text-sm);
     user-select: none;
-
     &:hover {
         color: var(--text-primary);
-        background-color: var(--bg-tertiary);
+        background-color: var(--primary);
         transform: scale(1.05);
     }
 }
 
 .active {
     color: var(--text-primary);
-    background-color: var(--bg-tertiary);
+    background-color: var(--primary-low);
 }
 
 .userProfile {
