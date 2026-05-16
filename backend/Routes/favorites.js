@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
         });
 
         await favorite.save();
-        return res.status(201).json({message: "Favorite Successfully Added"});
+        return res.status(201).json({message: "Favorite Successfully Added", favorite});
     } catch (error) {
         return res.status(500).json({message: "Favorite POST Server Error", error: error});
     }

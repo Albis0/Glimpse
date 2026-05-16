@@ -1,8 +1,17 @@
 import axios from "axios";
-import { createContext, useState, useRef, useEffect } from "react";
+import { createContext, useState, useRef, useEffect, useMemo, useCallback } from "react";
 
 const SearchContext = createContext()
 
+const unsplashRes = [`thumb`, `small`, `regular`, `full`]
+const pexelsRes = [`tiny`, `medium`, `large`, `original`]
+const pixabayRes = [`previewURL`, `webformatURL`, `largeImageURL`]
+
+const resolutionMap = {
+    unsplash: unsplashRes,
+    pexels: pexelsRes,
+    pixabay: pixabayRes
+}
 export function SearchProvider({ children }) {
     const unsplashApi = import.meta.env.VITE_unsplashAPI;
     const clientID = import.meta.env.VITE_unsplashAccessKey;
@@ -12,10 +21,6 @@ export function SearchProvider({ children }) {
 
     const pixabayApi = import.meta.env.VITE_pixabayAPI;
     const pixabayApiKey = import.meta.env.VITE_pixabayAPIKey;
-
-    const unsplashRes = [`thumb`, `small`, `regular`, `full`]
-    const pexelsRes = [`tiny`, `medium`, `large`, `original`]
-    const pixabayRes = [`previewURL`, `webformatURL`, `largeImageURL`]
 
     const [selectedApi, setSelectedApi] = useState("unsplash")
     const [selectedResolution, setSelectedResolution] = useState('thumb')
@@ -29,17 +34,40 @@ export function SearchProvider({ children }) {
     const [selectedImage, setSelectedImage] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const resolutionMap = {
-        unsplash: unsplashRes,
-        pexels: pexelsRes,
-        pixabay: pixabayRes
-    }
+
     useEffect(() => {
         setSelectedResolution(resolutionMap[selectedApi][0])
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedApi])
 
-    const apiConfigs = {
+
+
+    const showToast = useCallback((toastMessage) => {
+        setToastMessage(toastMessage);
+        setToastSwitch(true);
+        clearTimeout(toastTimerRef.current);
+        toastTimerRef.current = setTimeout(() => {
+            setToastSwitch(false);
+        }, 3000);
+    }, [])
+    const fetchImagesValidate = useCallback((data) => {
+        if (data === 0) return false;
+
+        return true;
+    }, [])
+    const isQueryEmpty = useCallback((query) => {
+        const trimmed = query.trim()
+        if (trimmed === "") {
+            showToast("query cannot be empty");
+            return true;
+        }
+        if (trimmed.length <= 2) {
+            showToast("query should be atleast 3 characters");
+            return true;
+        }
+        return false;
+    }, [showToast])
+
+    const apiConfigs = useMemo(() => ({
         unsplash: {
             getUrl: unsplashApi,
             getPhotoUrl: photo => photo.urls[selectedResolution],
@@ -64,10 +92,9 @@ export function SearchProvider({ children }) {
             getTotal: (data) => data.total,
             getMapKey: 'hits'
         }
-    }
+    }), [unsplashApi, pexelsApi, pixabayApi, pexelsApiKey, pixabayApiKey, selectedResolution, clientID, query, page])
 
-
-    async function imageFetcher(isLoadMore = false) {
+    const imageFetcher = useCallback(async (isLoadMore = false) => {
         if (isLoading || isQueryEmpty(query)) return;
         setIsLoading(true)
         try {
@@ -90,44 +117,21 @@ export function SearchProvider({ children }) {
 
         }
         finally { setIsLoading(false) }
-    }
-
-    function fetchImagesValidate(data) {
-        if (data === 0) return false;
-
-        return true;
-    }
-    function isQueryEmpty(query) {
-        const trimmed = query.trim()
-        if (trimmed === "") {
-            showToast("query cannot be empty");
-            return true;
-        }
-        if (trimmed.length <= 2) {
-            showToast("query should be atleast 3 characters");
-            return true;
-        }
-        return false;
-    }
+    }, [showToast, fetchImagesValidate, isQueryEmpty, apiConfigs, isLoading, query, selectedApi,])
 
 
 
-    function showToast(toastMessage) {
-        setToastMessage(toastMessage);
-        setToastSwitch(true);
-        clearTimeout(toastTimerRef.current);
-        toastTimerRef.current = setTimeout(() => {
-            setToastSwitch(false);
-        }, 3000);
-    }
 
+    const value = useMemo(() => ({
+        imageFetcher, images, setImages,
+        query, setQuery, isLoading, toastSwitch, toastMessage, setToastMessage, showToast,
+        selectedImage, setSelectedImage, isModalOpen, setIsModalOpen, selectedApi, setSelectedApi,
+        selectedResolution, setSelectedResolution, unsplashRes, pexelsRes, pixabayRes, page, setPage
+    }),
+        [images, setImages, isLoading, isModalOpen, page, query,
+            selectedApi, toastSwitch, toastMessage, selectedImage, selectedResolution, imageFetcher, showToast])
     return (
-        <SearchContext.Provider value={{
-            imageFetcher, images, setImages,
-            query, setQuery, isLoading, toastSwitch, toastMessage, setToastMessage, showToast,
-            selectedImage, setSelectedImage, isModalOpen, setIsModalOpen, selectedApi, setSelectedApi,
-            selectedResolution, setSelectedResolution, unsplashRes, pexelsRes, pixabayRes, page, setPage
-        }}>{children}</SearchContext.Provider>
+        <SearchContext.Provider value={value}>{children}</SearchContext.Provider>
     )
 }
 
