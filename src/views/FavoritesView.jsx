@@ -1,5 +1,6 @@
 import '../css/View.css'
 import { useContext, useState, useEffect, useRef } from "react";
+import { Link } from 'react-router-dom';
 import { FavoritesContext } from "../context/FavoritesContext";
 import { SearchContext } from "../context/SearchContext";
 import RenderImageCard from '../Components/ImageCardRender';
@@ -8,6 +9,10 @@ function FavoritesView() {
     const [visibleCount, setVisibleCount] = useState(20)
     const observerTarget = useRef(null);
 
+    const { favorites } = useContext(FavoritesContext)
+    const { setSelectedImage, setIsModalOpen } = useContext(SearchContext)
+
+    const isEmpty = favorites.length === 0
     // * masonry config
     const breakpointColumns = {
         default: 5,
@@ -31,22 +36,23 @@ function FavoritesView() {
         }
         return () => observer.disconnect()
     }, [])
-    const { favorites } = useContext(FavoritesContext)
-    const { setSelectedImage, setIsModalOpen } = useContext(SearchContext)
-    return <Masonry breakpointCols={breakpointColumns} className="contentWrapper" columnClassName="masonryColumns">
-        {favorites.slice(0, visibleCount).map((photo) => (
-            <RenderImageCard
-                key={photo._id}
-                imageUrl={photo.imageUrl}
-                imageApi={photo.imageApi}
-                onClick={() => {
-                    setSelectedImage(photo.imageUrl);
-                    setIsModalOpen(true);
-                }}
-            />
-        ))}
-        <div className="observerTarget" ref={observerTarget}></div>
-    </Masonry>
+
+    return <div className={`homeViewContainer ${isEmpty ? "empty" : ""} `}>
+        {isEmpty ? (<p className='emptyHint'>No Favorites Yet!</p>) : (<Masonry breakpointCols={breakpointColumns} className="contentWrapper" columnClassName="masonryColumns">
+            {favorites.slice(0, visibleCount).map((photo) => (
+                <RenderImageCard
+                    key={photo._id}
+                    imageUrl={photo.imageUrl}
+                    imageApi={photo.imageApi}
+                    onClick={() => {
+                        setSelectedImage(photo.imageUrl);
+                        setIsModalOpen(true);
+                    }}
+                />
+            ))}
+            <div className="observerTarget" ref={observerTarget}></div>
+        </Masonry>)}
+    </div>
 }
 
 export default FavoritesView;

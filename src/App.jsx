@@ -16,6 +16,7 @@ import { UserContext } from "./context/UserContext";
 import HomeView from "./views/HomeView";
 import FavoritesView from "./views/FavoritesView";
 import ResetPasswordView from "./views/ResetPasswordView"
+import NotFoundView from "./views/NotFoundView";
 
 function App() {
     const { isProfileModalOpen, isAuthModalOpen, } = useContext(UserContext)
@@ -31,6 +32,7 @@ function App() {
                     <Route path="/" element={<HomeView />} />
                     <Route path="/favorites" element={<FavoritesView />} />
                     <Route path="/reset-password/:token" element={<ResetPasswordView />} />
+                    <Route path="/*" element={<NotFoundView />} />
                 </Routes>
             </div>
             {/* Photo Modal */}

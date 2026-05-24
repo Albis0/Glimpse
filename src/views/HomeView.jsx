@@ -6,6 +6,7 @@ import RenderImageCard from "../Components/ImageCardRender";
 function HomeView() {
     const { isLoading, setSelectedImage, setIsModalOpen, images, selectedApi, setPage, imageFetcher } = useContext(SearchContext)
     const observerTarget = useRef(null);
+    const isEmpty = images.length === 0 && !isLoading;
 
     // * masonry config
     const breakpointColumns = {
@@ -34,14 +35,15 @@ function HomeView() {
     }, [imageFetcher, setPage])
 
 
-    return <div className="homeViewContainer">
+    return <div className={`homeViewContainer ${isEmpty ? "empty" : ""}`}>
         <div className="searchWrapper">
             <SearchBar />
         </div>
+            {isEmpty && <p className="emptyHint">Try Searching Something!</p>}
         <div className="loadingState">
             <div className="isLoadingSpan">{isLoading && <span>Loading ...</span>}</div>
         </div>
-        <Masonry breakpointCols={breakpointColumns} className="contentWrapper" columnClassName="masonryColumns">
+        {!isEmpty && <Masonry breakpointCols={breakpointColumns} className="contentWrapper" columnClassName="masonryColumns">
             {images.map((photo, index) => (
                 <RenderImageCard
                     key={`${photo.id}-${index}`}
@@ -54,7 +56,7 @@ function HomeView() {
                 />
             ))}
             <div className="observerTarget" ref={observerTarget}></div>
-        </Masonry>
+        </Masonry>}
     </div>;
 }
 
