@@ -23,6 +23,7 @@
 .sideBarFavorites {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: var(--space-xs);
     width: 100%;
     color: var(--text-secondary);
@@ -35,5 +36,17 @@
 
     &.active {
         color: var(--text-primary);
+    }
+}
+
+@media (max-width:768px) {
+    .sideBarWrapper {
+        width: 50px;
+        padding: var(--space-md) var(--space-xs);
+    }
+
+    .sideBarHome span,
+    .sideBarFavorites span {
+        display: none;
     }
 }

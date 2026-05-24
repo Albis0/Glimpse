@@ -61,4 +61,4 @@ React (Vite) • CSS3 • Axios • react-router-dom • react-masonry-css
 Unsplash • Pexels • Pixabay
 
 **Backend**
-node • express • bcryptjs • jwt • mongoDB • multer • Cloudinary • Resend
+Node • express • bcryptjs • jwt • mongoDB • multer • Cloudinary • Resend

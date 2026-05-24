@@ -68,3 +68,10 @@
         color: var(--primary);
     }
 }
+
+/* Media */
+@media (max-width:768px) {
+    .homeViewContainer{
+        padding-left: 5px;
+    }
+}

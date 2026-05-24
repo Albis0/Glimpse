@@ -83,3 +83,9 @@ body {
     border-radius: var(--space-xxxl);
     padding-left: 120px;
 }
+
+@media (max-width:768px) {
+    .viewWrapper{
+        padding-left: 50px;
+    }
+}

@@ -92,3 +92,36 @@ header {
         transform: scale(0.95);
     }
 }
+
+
+@media (max-width:768px) {
+    header {
+        padding: var(--space-md);
+        gap: var(--space-xs);
+    }
+
+    .appName {
+        font-size: var(--text-md);
+        letter-spacing: 0;
+    }
+
+    .apiSelect {
+        gap: 2px;
+        padding: 2px;
+    }
+
+    .navbarAPI {
+        padding: var(--space-xxs) var(--space-xs);
+        font-size: var(--space-xs);
+    }
+
+    #userPfp {
+        width: 30px;
+        height: 30px;
+    }
+
+    .navbarButton {
+        padding: var(--space-xxs) var(--space-xs);
+        font-size: var(--space-xs);
+    }
+}
