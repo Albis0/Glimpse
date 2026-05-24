@@ -14,6 +14,9 @@ router.post("/signup", async (req, res) => {
     try {
         const {username, email, password} = req.body;
 
+        if(!username?.trim() || !email?.trim() || !password?.trim()){
+            return res.status(400).json({message:"All Fields Required"})
+        }
         const existingUser = await User.findOne({$or: [{username}, {email}]});
         if (existingUser) return res.status(400).json({message: "User Already Exist"});
 
@@ -122,6 +125,10 @@ router.post("/reset-password/:token", async (req, res) => {
     try {
         const {token} = req.params;
         const {password} = req.body;
+
+        if(!password?.trim()){
+            return res.status(400).json({message:"Password Required"})
+        }
 
         const user = await User.findOne({
             resetPasswordToken: token,

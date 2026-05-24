@@ -24,7 +24,7 @@ function UserProfileModal() {
             <div className="logOutWrapper">
                 <button className="logOutBtn" onClick={() => { handleLogOut() }}>Log Out</button>
             </div>
-            <input type="file" ref={fileInputRef} accept="image/*" hidden onChange={(e) => { handlePfpUpload(e.target.files[0]) }} />
+            <input type="file" ref={fileInputRef} accept="image/*" hidden onChange={(e) => { handlePfpUpload(e.target.files?.[0]) }} />
 
         </div>
     </div>;

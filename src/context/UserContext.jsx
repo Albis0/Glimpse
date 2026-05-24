@@ -76,6 +76,7 @@ export function UserProvider({ children }) {
     }, [])
 
     const handlePfpUpload = useCallback(async (file) => {
+        if (!file) return;
         const formData = new FormData()
         formData.append('profilePicture', file)
 

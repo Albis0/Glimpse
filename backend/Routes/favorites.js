@@ -9,7 +9,6 @@ router.use(authMiddleware);
 router.get("/", async (req, res) => {
     try {
         const favorite = await Favorite.find({userId: req.user.userid});
-        if (!favorite) return res.status(404).json({message: "No Favorite Found"});
 
         return res.status(200).json({favorites: favorite});
     } catch (error) {
