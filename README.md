@@ -47,7 +47,7 @@ Then edit `.env` and add your API keys.
 - [✓] Image quality selector (thumbnail / HD / Full HD / 4K / original)
 - [✓] Infinite scroll (Pinterest-style)
 - [✓] Better error states (network / rate limit / empty)
-- [ ] Responsive UI improvements
+- [✓] Responsive UI improvements
 - [✓] More providers (Pixabay, etc.)
 - [✓] User accounts
 - [✓] Favorites
