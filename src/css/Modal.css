@@ -203,6 +203,7 @@
     border: 2px dashed var(--border-dark);
     padding: var(--space-xs);
     overflow: hidden;
+
     .userPfp {
         width: 60px;
         height: 60px;
@@ -239,6 +240,33 @@
     color: var(--text-primary);
     cursor: pointer;
     transition: .7s ease-in;
-    &:hover{background-color: var(--danger-hover);}
-    &:active{transform: scale(0.95);}
+
+    &:hover {
+        background-color: var(--danger-hover);
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+}
+
+/* Media */
+
+@media (max-width:768px) {
+    .UserProfileContainer {
+        right: var(--space-xs);
+        left: var(--space-xs);
+        top: var(--space-xxxl);
+        max-width: none;
+        width: auto;
+    }
+
+    .AuthModal {
+        padding: var(--space-xl) var(--space-md);
+        gap: var(--space-sm);
+    }
+
+    .modalContainer {
+        padding: var(--space-md);
+    }
 }

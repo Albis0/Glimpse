@@ -96,23 +96,24 @@ header {
 
 @media (max-width:768px) {
     header {
-        padding: var(--space-md);
+        padding: var(--space-lg) var(--space-md);
         gap: var(--space-xs);
     }
 
     .appName {
-        font-size: var(--text-md);
+        font-size: var(--text-sm);
         letter-spacing: 0;
     }
 
     .apiSelect {
-        gap: 2px;
-        padding: 2px;
+        gap: 3px;
+        padding: 3px;
     }
 
     .navbarAPI {
-        padding: var(--space-xxs) var(--space-xs);
-        font-size: var(--space-xs);
+        padding: var(--space-xs) ;
+        font-size: var(--text-xxs);
+        white-space: nowrap;
     }
 
     #userPfp {
@@ -121,7 +122,8 @@ header {
     }
 
     .navbarButton {
-        padding: var(--space-xxs) var(--space-xs);
-        font-size: var(--space-xs);
+        padding: var(--space-xs) ;
+        font-size: var(--text-xxs);
+        white-space: nowrap;
     }
 }

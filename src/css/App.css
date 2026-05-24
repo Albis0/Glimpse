@@ -79,13 +79,23 @@ body {
     width: 100%;
     min-height: 100vh;
 }
-.viewWrapper{
+
+.viewWrapper {
     border-radius: var(--space-xxxl);
     padding-left: 120px;
 }
 
 @media (max-width:768px) {
-    .viewWrapper{
+    .viewWrapper {
         padding-left: 50px;
+    }
+
+    @supports (-webkit-touch-callout: none) {
+
+        #queryInput,
+        .AuthModal input,
+        .newPasswordInput {
+            font-size: 16px;
+        }
     }
 }
