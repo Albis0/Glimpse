@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { SearchContext } from "../context/SearchContext"
 import "../css/forgotPassword.css"
 function ResetPasswordView() {
@@ -22,7 +22,10 @@ function ResetPasswordView() {
             showToast(error.response?.data?.message || "An Error Occured ")
         }
     }
-
+    // document titles
+    useEffect(() => {
+        document.title = "Reset Password — Glimpse"
+    }, [])
     return <div className="resetPasswordContainer">
         <div className="wrapper">
             <p className="resetPassP">Enter New Password</p>

@@ -37,6 +37,10 @@ function FavoritesView() {
         return () => observer.disconnect()
     }, [])
 
+    // document titles
+    useEffect(()=>{
+        document.title= "My Favorites — Glimpse"
+    },[])
     return <div className={`homeViewContainer ${isEmpty ? "empty" : ""} `}>
         {isEmpty ? (<p className='emptyHint'>No Favorites Yet!</p>) : (<Masonry breakpointCols={breakpointColumns} className="contentWrapper" columnClassName="masonryColumns">
             {favorites.slice(0, visibleCount).map((photo) => (

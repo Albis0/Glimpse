@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /reset-password/
+Disallow: /api/
+
+Sitemap: https://glimpse-dun-seven.vercel.app/sitemap.xml

@@ -8,7 +8,7 @@ export default function Navbar() {
     const { userPfp, isLoggedIn, setIsAuthModalOpen, setAuthMode, setIsProfileModalOpen } = useContext(UserContext)
 
     return <header>
-        <div className="appName">Glimpse</div>
+        <a href="/" className="appName" aria-label="Glimpse Home">Glimpse</a>
         <div className="apiSelect">
             <div onClick={() => { setSelectedApi('unsplash') }}
                 className={`navbarAPI ${selectedApi === 'unsplash' ? 'active ' : ''} navbarUnsplash`}>Unsplash</div>

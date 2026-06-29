@@ -2,14 +2,14 @@ import "../css/ImageCard.css"
 import { FavoriteIcon, } from "./SvgIcons"
 import { FavoritesContext } from "../context/FavoritesContext";
 import { useContext, useState } from "react";
-function RenderImageCard({ imageUrl, imageApi, onClick, }) {
+function RenderImageCard({ imageUrl, imageApi, onClick, imageAlt }) {
     const { isFavorite, toggleFavorite } = useContext(FavoritesContext)
     const [isLoaded, setIsloaded] = useState(false);
     return (
         <div className="imageWrapper" onClick={onClick}>
             {!isLoaded && <div className="skeletonImage" />}
             <img
-                src={imageUrl} alt="Image" className="image" loading="lazy"
+                src={imageUrl} alt={imageAlt || `Free stock photo from ${imageApi}`} className="image" loading="lazy"
                 onLoad={() => { setIsloaded(true) }}
                 style={!isLoaded ? { opacity: 0, position: `absolute` } : {}}
             />

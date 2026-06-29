@@ -34,12 +34,15 @@ function HomeView() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [imageFetcher, setPage])
 
-
+    // document titles
+    useEffect(() => {
+        document.title = "Glimpse — Search Free Stock Photos"
+    }, [])
     return <div className={`homeViewContainer ${isEmpty ? "empty" : ""}`}>
         <div className="searchWrapper">
             <SearchBar />
         </div>
-            {isEmpty && <p className="emptyHint">Try Searching Something!</p>}
+        {isEmpty && <p className="emptyHint">Try Searching Something!</p>}
         <div className="loadingState">
             <div className="isLoadingSpan">{isLoading && <span>Loading ...</span>}</div>
         </div>
@@ -49,6 +52,7 @@ function HomeView() {
                     key={`${photo.id}-${index}`}
                     imageUrl={photo.url}
                     imageApi={selectedApi}
+                    imageAlt={photo.alt || photo.description || `Free stock photo from ${selectedApi}`}
                     onClick={() => {
                         setSelectedImage(photo.url);
                         setIsModalOpen(true);

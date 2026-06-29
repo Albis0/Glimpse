@@ -1,16 +1,64 @@
 <!doctype html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Glimpse</title>
-</head>
+        <!-- Primary meta tags -->
+        <meta name="title" content="Glimpse — Search Free Photos from Unsplash, Pexels & Pixabay" />
+        <meta name="description" content="Search millions of free stock photos from Unsplash, Pexels, and Pixabay in one place. Browse, preview, and download high-quality images instantly." />
+        <meta name="keywords" content="free stock photos, image search, unsplash, pexels, pixabay, photo finder, stock images" />
+        <meta name="author" content="Glimpse" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://glimpse-dun-seven.vercel.app/" />
 
-<body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-</body>
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://glimpse-dun-seven.vercel.app/" />
+        <meta property="og:title" content="Glimpse — Search Photos from Unsplash, Pexels & Pixabay" />
+        <meta property="og:description" content="Search millions of free stock photos from Unsplash, Pexels, and Pixabay in one place. Browse, preview, and download high-quality images instantly." />
+        <meta property="og:image" content="https://glimpse-dun-seven.vercel.app/og-image.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="Glimpse" />
 
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://glimpse-dun-seven.vercel.app/" />
+        <meta name="twitter:title" content="Glimpse — Search Photos from Unsplash, Pexels & Pixabay" />
+        <meta name="twitter:description" content="Search millions of free stock photos from Unsplash, Pexels, and Pixabay in one place." />
+        <meta name="twitter:image" content="https://glimpse-dun-seven.vercel.app/og-image.png" />
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <meta name="theme-color" content="#0f0f0f" />
+
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "WebApplication",
+                "name": "Glimpse",
+                "url": "https://glimpse-dun-seven.vercel.app",
+                "description": "Search millions of free stock photos from Unsplash, Pexels, and Pixabay in one place.",
+                "applicationCategory": "PhotographyApplication",
+                "operatingSystem": "Any",
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                },
+                "featureList": ["Unsplash image search", "Pexels image search", "Pixabay image search", "Infinite scroll", "Image download", "Favorites collection", "User accounts"]
+            }
+        </script>
+
+        <title>Glimpse — Search Free Photos from Unsplash, Pexels & Pixabay</title>
+    </head>
+
+    <body>
+        <div id="root"></div>
+        <script type="module" src="/src/main.jsx"></script>
+    </body>
 </html>
